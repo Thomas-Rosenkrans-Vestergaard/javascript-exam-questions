@@ -665,7 +665,40 @@ Typescript aims to provide compile-time type-safety. Typescript compiles down th
 
 ### Explain the ECMAScript Proposal Process for how new features are added to the language (the TC39 Process)
 
-// TODO
+- http://2ality.com/2015/11/tc39-process.html
+- https://tc39.github.io/process-document/
+
+> TC39 is the committee that evolves JavaScript. Its members are companies (among others, all major browser vendors). TC39 meets regularly, its meetings are attended by delegates that members send and by invited experts. Minutes of the meetings are available online and give you a good idea of how TC39 works.
+
+> TC39 means Technical Committee number 39. It is part of ECMA, the institution which standardizes the JavaScript language under the “ECMAScript” specification. It works on the standardization of the general purpose, cross platform, vendor-neutral programming language that is ECMAScript. This includes the language syntax, semantics, libraries, and complementary technologies that support the language.
+
+> Since ES6 came out, TC 39 streamlined the proposal previsioning process to meet modern expectations. The new process uses a superset of HTML to format the proposals. They use GitHub pull requests, which helped boost participation from the community. The number of proposals being made also increased.
+  
+> The specification is now more of a living standard, meaning that proposals see adoption faster, and we don’t spend years waiting for a new edition of the specification to come out.
+
+
+#### Process 
+
+> ##### Stage 0: Strawman
+> Any discussion, idea, change, or addition which has not yet been submitted as a formal proposal is considered to be a “strawman” proposal at this stage. Only members of TC39 can create these proposals, and there’s over a dozen active strawman proposals today.
+>  
+> ##### Stage 1: Proposal
+> At this stage, a proposal is formalized and expected to address cross-cutting concerns, interactions with other proposals, and implementation concerns. Proposals in this stage identify a discrete problem and offer a concrete solution to that problem.
+> 
+> At this stage, proposal often includes a high level API description, usage examples, and a discussion of internal semantics and algorithms. These proposals are likely to change significantly as they make their way through the process.
+>  
+> ##### Stage 2: Draft
+>  Proposals in this stage should offer an initial draft of the specification.
+>  
+>  At this point, it’s reasonable for implementers to begin experimenting with actual implementations in runtime. The implementation could come in many forms: a polyfill, user code that mangles the runtime into adhering to the proposal, an engine implementation (which natively provides support for the proposal), or it could be support by a build-time compiler like Babel.
+>  
+> ##### Stage 3: Candidate
+>  Proposals in this stage are candidate recommendations. At this advanced stage, the specification editor and designated reviewers must have signed off on the final specification. A Stage 3 proposal is unlikely to change beyond fixes to issues identified in the wild.
+>  
+>  Implementers should have expressed interest in the proposal as well — a proposal without support from implementers is dead in the water. In practice, proposals move to this level with at least one browser implementation, a high-fidelity polyfill, or when supported by a build-time transpiler like Babel.
+> 
+> ##### Stage 4: Finished
+> Finally, proposals get to this stage when there are at least two independent implementations that pass acceptance tests.
 
 ## Callbacks, Promises and async/await
 
@@ -742,8 +775,73 @@ The `Promise.all` method waits for all the provided Promises to be resolved or r
 
 #### Example(s) that demonstrate how to implement our own promise-solutions.
 
+You implement promise-based solutions by creating a `new Promise`. The constructor takes a function `executor`, that takes two functions `resolver` and `rejector`.
+The executor function contains the work done by the promise. When the promise has performed the required work, the promise can be solved by calling the `resolver` function. When an error occurs the `executor` can insted call the `rejector` function. The promise object then performs the work of calling the registered `then` or `catch` methods.
+
+````js
+const performWork = (param) => new Promise((resolve, reject) => {
+   const result = performWork(param);
+   if(result)
+       resolve(result);
+   else
+       reject("Could not perform work.");
+});
+
+performWork(argument)
+    .then(result => console.log(result))
+    .catch(message => console.error("An error occurred: " + message));
+
+````
 #### Example(s) that demonstrate error handling with promises.
 
-#### Explain about JavaScripts async/await, how it relates to promises and reasons to use it compared to the plain promise API.
+- https://hackernoon.com/promises-and-error-handling-4a11af37cb0e
 
-#### 
+`````js
+// doAsyncOperation1() returns a promise.
+doAsyncOperation1()
+.then(() => {
+  // ...
+  // doAnotherAsyncOperation() returns a promise
+  // which will be inserted into the chain.
+  return doAsyncOperation2();
+})
+.then((output) => {
+  // output will be the value resolved by the
+  // promise which was returned from doAsyncOperation2()
+  // ...
+  return doAsyncOperation3();
+})
+.catch((err) => {
+  // Handle any error that occurred in any of the previous
+  // promises in the chain.
+});
+`````
+
+#### Explain about JavaScripts async/await, how it relates to promises and reasons to use it compared to the plain promise API. 
+
+`async` and `await` are keywords that allow for better syntax when using Promise-based APIs. `await` _pauses_ the execution until the provided promise hes been resolved.
+
+```js 
+const rows = async database.select(5);
+console.log(rows);
+```
+
+Note that the execution is not really paused, and that the above code is equivalent to:
+
+````js
+database.select(5).then(rows => {
+    console.log(rows);
+})
+````
+
+The ``await`` keyword can only be used within functions declared using the `async` keyword.
+
+`````js
+async function a() {
+    
+}
+
+const b = async () => undefined;
+`````
+
+An error occurs when attempting to use the ``await`` keyword within a non-`async` function. The `await` keyword can therefor not be used within the global context.
