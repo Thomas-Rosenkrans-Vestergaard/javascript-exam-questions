@@ -671,11 +671,74 @@ Typescript aims to provide compile-time type-safety. Typescript compiles down th
 
 ### Explain about promises in ES-6 including, the problems they solve, a quick explanation of the Promise API.
 
-Promises are objects that aim to replace callbacks with a standard api. 
+- https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise
+
+Promises are objects that aim to replace callbacks with a standard api.
+
+> A Promise is a proxy for a value not necessarily known when the promise is created. It allows you to associate handlers with an asynchronous action's eventual success value or failure reason. This lets asynchronous methods return values like synchronous methods: instead of immediately returning the final value, the asynchronous method returns a promise to supply the value at some point in the future.
+>
+> A Promise is in one of these states:
+>  
+> - pending: initial state, neither fulfilled nor rejected.
+> - fulfilled: meaning that the operation completed successfully.
+> - rejected: meaning that the operation failed.
+
+> A pending promise can either be fulfilled with a value, or rejected with a reason (error). When either of these options happens, the associated handlers queued up by a promise's then method are called. (If the promise has already been fulfilled or rejected when a corresponding handler is attached, the handler will be called, so there is no race condition between an asynchronous operation completing and its handlers being attached.)
+
+```js
+fetch(url)
+    .then(response => response.json())
+    .then(data => console.log(data))
+    .catch(err => console.error(err))
+```
+In the above example we use the Promise API, since the `fetch` function returns a promise. We use the `then` method on the `Promise` object to specify the operation to take when the promise has been resolved. Similarly the `catch` method specifies the operation to take when an error occurs. In the case of the fetch API, the `catch` method is called when the request cannot be sent (network problems).
+
+The `then` method always return a new `Promise`, even in the example below.
+
+```js
+new Promise((resolve) => {
+    resolve(1)  
+})
+.then(n => n + 1)  // Method call returns a Promise, allowing for then calls to be chained 
+.then(console.log) // Logs 2
+```
 
 #### Example(s) that demonstrate how to avoid the callback hell  (“Pyramid of Doom")
 
+The Pyramid of Doom refers to the structure of code when dealing with many calls using asynchronous callbacks.
+
+```js
+aync1((err1, result1) => {
+    async2(result1, (err2, result2) => {
+         async3(result2, (err3, result3) => {
+               console.log(result3)
+         })
+    })
+})
+```
+
+In the above example we use asynchronous callbacks, and end up with heavily indented code. An anternative version using the Promise API could look like this.
+
+```js
+aync1()
+    .then(result1 => async2(result1))
+    .then(result2 => async3(result2))
+    .then(result3 => console.log(result3))
+```
+
 #### Example(s) that demonstrate how to execute asynchronous (promise-based) code in serial or parallel
+
+In the above example the code is executed serially, and we do not have a choice since we depend on the result of the previous operation to perform the next operation.
+
+There are a couple of ways to execute promise base code in parallel, below i show the `Promise.all` method.
+
+```js
+Promise.all([aync1(), async2(), async3()]).then(results => {
+    const [result1, result2, result3] = results;
+})
+```
+
+The `Promise.all` method waits for all the provided Promises to be resolved or rejected before calling `then` or `catch`.
 
 #### Example(s) that demonstrate how to implement our own promise-solutions.
 
