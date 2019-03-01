@@ -406,8 +406,30 @@ console.log(sum); // 15
 
 ### Provide examples of user-defined reusable modules implemented in Node.js
 
-// TODO
+Assuming the following file-structure.
 
+```
+src
+ | main.js
+ | export.js
+```
+
+Creating and importing node modules can be done as follows:
+
+```js
+// export.js
+
+exports.default = function square(num) {
+  return Math.pow(num, 2);
+};
+```
+
+```js
+// main.js
+
+let square = require('./export');
+console.log(square(4)); // 16
+```
 ### Provide examples and explain the es2015 features: let, arrow functions, this, rest parameters, de-structuring assignments, maps/sets etc.
 
 #### `let`
