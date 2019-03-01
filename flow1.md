@@ -3,18 +3,27 @@
 **Explain the differences between Java and JavaScript. You should include both topics related to the fact that Java is a compiled language and JavaScript a scripted language, and general differences in language features.**
 
 Java and JavaScript are both general purpose programming languages.
-* Java is mostly used to create backend applications, but can also be used to create desktop applications.
-* JavaScript is mostly used to create frontend web applications, but are now also used to create backend applications 
-using `node.js`.
-* Java is a compiled language. Java code is compiled to java-bytecode, that can then be run on Java Virtual Machines.
-* JavaScript is mostly an interpreted language. JavaScript code is directly interpreted by some JavaScript runtime. In the 
-browser, the JavaScript code is run by the browser's JavaScript engine. Other runtimes include the popular `node.js` engine. 
-Even though JavaScript is interpreted, it has become more commonplace to transpile versions of JavaScript.
-* Java has a static type-system, where the types of values are known at compile-time.
-* JavaScript has a dynamic type-system, where the types of values are not necessarily known at compile-time. 
-* Java has strong typing, meaning that implicit type coercion is not done.
-* JavaScript has weak typing, meaning that JavaScript engines will attempt to convert values of one type to values of 
-other types.
+
+|Comparison|Java|JavaScript|
+|---|---|---|
+|Usage|Java is mostly used to create backend applications, but can also be used to create desktop applications.|JavaScript is mostly used to create frontend web applications, but are now also used to create backend applications using `node.js`.|
+|Build|Java is a compiled language. Java code is compiled to java-bytecode, that can then be run on Java Virtual Machines.|JavaScript is mostly an interpreted language. JavaScript code is directly interpreted by some JavaScript runtime. In the browser, the JavaScript code is run by the browser's JavaScript engine. Other runtimes include the popular `node.js` engine. Even though JavaScript is interpreted, it has become more commonplace to transpile versions of JavaScript.|
+|Types|Java has a static type-system, where the types of values are known at compile-time. Java has strong typing, meaning that implicit type coercion is not done.|JavaScript has a dynamic type-system, where the types of values are not necessarily known at compile-time. JavaScript has weak typing, meaning that JavaScript engines will attempt to convert values of one type to values of other types.|
+|OOP|Object oriented practices are implemented using a class-based approach. Classes act as a blueprint to create objects.|Object oriented practices are implemented using a prototype-based approach.|
+
+- https://www.upwork.com/hiring/development/java-vs-javascript/
+
+> #### Compiled vs. Interpreted. 
+> Java is considered a compiled programming language. JavaScript is considered an interpreted scripting language. The difference is in the implementation: Java is compiled into bytecode and run on a virtual machine, whereas JavaScript can be interpreted directly by a browser in the syntax it is written (although it is usually minified in practice).
+  
+> #### Static vs Dynamic Type Checking. 
+> Java uses static type checking, where the type of a variable is checked at compile-time. The programmer must specify the type (integer, double, string, etc.) of any variable they create. JavaScript, like most scripting languages, uses dynamic typing, where type safety is verified at runtime. It is not required for a programmer to specify the type of any variable they create. There are many pros and cons for these two paradigms, but the primary advantage of static type checking is that type errors are caught early in development, and because the compiler knows exactly what data types are being used, code typically executes faster or uses less memory. The primary advantage of dynamic type checking is programmer productivity—you are free to assign types at your leisure.
+ 
+> #### Concurrency. 
+> The ability to handle the execution of several instruction sequences at the same time is handled very differently between Java and JavaScript. Java makes use of multiple threads to perform tasks in parallel. JavaScript, particularly as it exists as Node.js in server-side applications, handles concurrency on one main thread of execution via a queue system called the event loop, and a forking system called Node Clustering. For most use-cases, both methods work just fine, but Java is generally faster because thread to thread memory sharing much faster than interprocess communication (IPC).
+
+> #### Class Based vs Prototype Based. 
+> Java follows class based inheritance—a top down, hierarchical, class-based relationship whereby properties are defined in a class and inherited by an instance of that class (one of its members). In JavaScript, inheritance is prototypal—all objects can inherit directly from other objects. Hierarchy is accomplished in JavaScript by assigning an object as a prototype with a constructor function.
 
 **Explain the two strategies for improving JavaScript: ES6 (es2015) + ES7, versus Typescript. What does it require to use 
 these technologies: In our backend with Node and in (many different) Browsers.**
