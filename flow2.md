@@ -51,17 +51,17 @@ cluster.on('exit', function (worker) {
 
 ### Explain briefly how to deploy a Node/Express application including how to solve the following deployment problems.
 
-* Ensure that you Node-process restarts after a (potential) exception that closed the application.
+* __Ensure that you Node-process restarts after a (potential) exception that closed the application.__
 
     Above i have presented one way of handling exceptions that threaten to crash the application. This solution only works when using the cluster API. This model is more comparable to server architectures that natively opens a new process per request, ei. Tomcat or Apache.
 
     Another strategy is to use a process manager. When using a process manager, the process manager manages the starting of the application. You no longer start the application yourself, but instead instruct a process manager to do it for you. These process managers can be configured to automatically restart the application on crashes.
 
     [Express states](https://expressjs.com/en/advanced/pm.html) that process managers are useful for:
-    >* Restart the app automatically if it crashes.
-    >* Gain insights into runtime performance and resource consumption.
-    >* Modify settings dynamically to improve performance.
-    >* Control clustering.
+    * Restart the app automatically if it crashes.
+    * Gain insights into runtime performance and resource consumption.
+    * Modify settings dynamically to improve performance.
+    * Control clustering.
 
     Some popular process managers are:
     * [forever](https://github.com/foreverjs/forever)
@@ -69,7 +69,7 @@ cluster.on('exit', function (worker) {
     * [StrongLoop Process Manager](http://strong-pm.io/)
     * SystemD
 
-* Ensure that you Node-process restarts after a server (Ubuntu) restart.
+* __Ensure that your Node-process restarts after a server (Ubuntu) restart.__
 
     Process managers are useful when restarting a node application when an exception occurs within the application itself. They do not alone help when the entire server restarts. Instead the developer must instruct the server to restart the application.
 
@@ -83,11 +83,11 @@ cluster.on('exit', function (worker) {
 
     `@reboot pm2 start /path/to/server.js`
 
-* Ensure that you can take advantage of a multi-core system.
+* __Ensure that you can take advantage of a multi-core system.__
 
     I feel this question has been answered above.
 
-* Ensure that you can run “many” node-applications on a single droplet on the same port.
+* __Ensure that you can run “many” node-applications on a single droplet on the same port.__
 
     My preferred way of running multiple _accessable_ node application is to use a reverse proxy like nginx. Using nginx we can forward incoming requests to different node applications, based on the path of the incoming requests.
 
