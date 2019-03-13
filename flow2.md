@@ -159,6 +159,8 @@ Here the [cross-env](https://www.npmjs.com/package/cross-env) package is used so
 
 ### Explain, using relevant examples, concepts related to testing a REST-API using Node/JavaScript + relevant packages.
 
+Testing a REST API is much easlier in JavaScript than in many other languages like Java. When using languages like Java, web services often need to be deployed to a dedicated server. Using JavaScript we can programmatically start our express server using the `listen` method. We can then use the `node-fetch` to make requests to the REST API.
+
 ### Explain, using relevant examples, the Express concept; middleware.
 
 ### Explain, using relevant examples, how to implement sessions and the legal implications of doing this.
