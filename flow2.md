@@ -167,7 +167,7 @@ Here the [cross-env](https://www.npmjs.com/package/cross-env) package is used so
 
 ### Demonstrate a simple Server Side Rendering example using a technology of your own choice (pug, EJS, ..)
 
-## Explain, using relevant examples, your strategy for implementing a REST-API with Node/Express and show how you can "test" all the four CRUD operations programmatically using, for example, the Request package.
+### Explain, using relevant examples, your strategy for implementing a REST-API with Node/Express and show how you can "test" all the four CRUD operations programmatically using, for example, the Request package.
 
 ### Explain, using relevant examples, about testing JavaScript code, relevant packages (Mocha etc.) and how to test asynchronous code.
 
