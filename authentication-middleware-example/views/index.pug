@@ -1,0 +1,13 @@
+extends layout
+
+block content
+    h1 These are our jokes
+    ul
+        each joke in jokes
+            li=joke
+
+    h2 More operations
+      p
+        a(href="jokes/random") Get your random joke here
+      p
+        a(href="jokes/add") Add a new joke

@@ -119,7 +119,7 @@ The `debug` package exposes a function that can be used to print debugging messa
 ```js
 const a = require('debug')('a') // Creates a debug function with the name a
 const b = require('debug')('b') // Creates a debug function with the name b
-const b = require('debug')('b') // Creates a debug function with the name c
+const c = require('debug')('c') // Creates a debug function with the name c
 
 a('Printed by a')
 b('Printed by b')
@@ -162,6 +162,69 @@ Here the [cross-env](https://www.npmjs.com/package/cross-env) package is used so
 Testing a REST API is much easlier in JavaScript than in many other languages like Java. When using languages like Java, web services often need to be deployed to a dedicated server. Using JavaScript we can programmatically start our express server using the `listen` method. We can then use the `node-fetch` to make requests to the REST API.
 
 ### Explain, using relevant examples, the Express concept; middleware.
+
+- https://expressjs.com/en/resources/middleware.html
+- https://expressjs.com/en/guide/using-middleware.html
+
+> Middleware functions are functions that have access to the request object (req), the response object (res), and the next middleware function in the application’s request-response cycle. The next middleware function is commonly denoted by a variable named next.
+
+> Middleware functions can perform the following tasks:
+
+> * Execute any code.
+> * Make changes to the request and the response objects.
+> * End the request-response cycle.
+> * Call the next middleware function in the stack.
+
+In express, middleware is a simply a function that is called before the incoming request is dispatched to a route. The middleware can be specific to a HTTP method or an application path. Note that multiple middleware functions can be provided at the same time.
+
+```js
+
+const express = require('express')
+
+const a = require('middleware-a')
+const b = require('middleware-b')
+const c = require('middleware-c')
+
+app.use(a)
+app.use('/api', b, c)
+app.get('/path', c)
+```
+
+Middleware help to achieve code-reuse, since one middleware function can be used on many routes. Some middleware is applied to all routes, ie. when using the [`cors`](https://expressjs.com/en/resources/middleware/cors.html) middleware to create a REST API.
+
+```js
+var express = require('express')
+var cors = require('cors')
+var app = express()
+
+app.use(cors())
+
+app.get('/products/:id', function (req, res, next) {
+  res.json({msg: 'This is CORS-enabled for all origins!'})
+})
+
+app.listen(80, function () {
+  console.log('CORS-enabled web server listening on port 80')
+})
+```
+
+Authentication can also be implemented using middleware. The middleware can then be applied only to the routes that need authentication.
+
+[express-middleware-example](./express-middleware-example)
+
+```js
+const express = require('express')
+const app = express()
+
+function auth(req, res, next) {
+    if (!req.session.userName){ // when not logged in
+        res.redirect('auth') // redirect to the login page
+        return next()
+    }
+}
+
+app.use('/admin', auth) // only use the authentication middleware on the administration page.
+```
 
 ### Explain, using relevant examples, how to implement sessions and the legal implications of doing this.
 
