@@ -147,7 +147,7 @@ const b = require('debug')('name:b')
 
 ### Demonstrate a system using application logging and “coloured” debug statements.
 
-An example can be found in the [debugging-example](./debuggin-example) project. Note the below `scripts` commands found in the `package.json` file. 
+An example can be found in the [debugging-example](./debugging-example) project. Note the below `scripts` commands found in the `package.json` file. 
 
 ```json
 "scripts": {
@@ -265,6 +265,8 @@ During the second semester we used JSP to render webpages. There are some differ
 * `JSP` is the default template renderer for Tomcat. Tomcat could automatically locate and render `JSP` files when accessed using `Tomcat`. Express has no default template engine, and the template is therefor rendered explicitly. Using middleware we could similarly automatically locate and render a template based on the url path.
 
 ### Demonstrate a simple Server Side Rendering example using a technology of your own choice (pug, EJS, ..)
+
+The demonstration can be found at [server-side-rendering-example](./server-side-rendering-example). The example uses the [handlebars](./https://handlebarsjs.com/) templating library.
 
 ### Explain, using relevant examples, your strategy for implementing a REST-API with Node/Express and show how you can "test" all the four CRUD operations programmatically using, for example, the Request package.
 
