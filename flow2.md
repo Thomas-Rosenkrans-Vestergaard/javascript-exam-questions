@@ -89,6 +89,8 @@ cluster.on('exit', function (worker) {
 
 * __Ensure that you can run “many” node-applications on a single droplet on the same port.__
 
+    When deploying web-applications, we almost always want our applications to be accessable from the default port for http traffic (80).
+
     My preferred way of running multiple _accessable_ node application is to use a reverse proxy like nginx. Using nginx we can forward incoming requests to different node applications, based on the path of the incoming requests.
 
     Assume we have the following node applications.
@@ -227,6 +229,32 @@ app.use('/admin', auth) // only use the authentication middleware on the adminis
 ```
 
 ### Explain, using relevant examples, how to implement sessions and the legal implications of doing this.
+
+Sessions can easily be implemented using the [express-session](https://github.com/expressjs/session) middleware. This middleware adds a cookie to the response. This cookie contains the session-id of the user. A `session` property is then added to the `request` object provided to the express middleware and routes.
+
+The session middleware has many configuration options. But can easily be set up using the default options.
+
+```js
+const express = require('express')
+const session = require('express-session')
+const app = express()
+
+app.use(session({secret: '|^3x"<EP65z+(lK`Q\ECuGre'})) // apply the session middleware to the entire apps
+
+app.get('/', function(req, res) {
+    if(!req.session.visits)
+        req.session.visits = 1
+    else
+        req.session.visits++;
+
+    res.send(`Numbers of visits: ${req.session.visits");
+})
+```
+
+The session middleware has multiple strategies for session storage. The default strategy is `MemoryStorage`, however the developers state that:
+> __Warning__ The default server-side session storage, `MemoryStore, is purposely not designed for a production environment. It will leak memory under most conditions, does not scale past a single process, and is meant for debugging and developing.
+
+Other stragegies include storing the information in a `MongoDB` database: [connect-mongodb-session](https://www.npmjs.com/package/connect-mongodb-session).
 
 ### Compare the express strategy toward (server side) templating with the one you used with Java on second semester.
 
