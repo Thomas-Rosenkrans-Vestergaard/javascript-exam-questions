@@ -256,7 +256,13 @@ The session middleware has multiple strategies for session storage. The default 
 
 Other stragegies include storing the information in a `MongoDB` database: [connect-mongodb-session](https://www.npmjs.com/package/connect-mongodb-session).
 
-### Compare the express strategy toward (server side) templating with the one you used with Java on second semester.
+### Compare the express strategy toward (server side) templating with the one you used with Java during the second semester.
+
+Templating is used to compose/render dynamic HTML pages. Templates provide a better syntax for rendering, than most programming languages have natively. Most templating languages provide support for function calls, interation and printing (output). There are templating libraries available for most, if not all, programming languages. Some templating libraries, like [mustache](https://mustache.github.io/) are available for multiple languages.
+
+During the second semester we used JSP to render webpages. There are some differences between our usage of `JSP`, and template rendering using express.
+
+* `JSP` is the default template renderer for Tomcat. Tomcat could automatically locate and render `JSP` files when accessed using `Tomcat`. Express has no default template engine, and the template is therefor rendered explicitly. Using middleware we could similarly automatically locate and render a template based on the url path.
 
 ### Demonstrate a simple Server Side Rendering example using a technology of your own choice (pug, EJS, ..)
 
