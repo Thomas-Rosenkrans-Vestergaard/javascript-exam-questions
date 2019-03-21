@@ -270,9 +270,13 @@ The demonstration can be found at [server-side-rendering-example](./server-side-
 
 ### Explain, using relevant examples, your strategy for implementing a REST-API with Node/Express and show how you can "test" all the four CRUD operations programmatically using, for example, the Request package.
 
+The project can be found at [rest-api-test-example](rest-api-test-example). The assertions are made using the `chai` testing framework. The requests to the server are made using the `chai-http` framework. The tests are run using the `mocha` library, using the `npm test` script.
+
 ### Explain, using relevant examples, about testing JavaScript code, relevant packages (Mocha etc.) and how to test asynchronous code.
 
 ### Explain, using relevant examples, different ways to mock out databases, HTTP-request etc.
+
+
 
 ### Explain, preferably using an example, how you have deployed your node/Express applications, and which of the Express Production best practices you have followed.
 
