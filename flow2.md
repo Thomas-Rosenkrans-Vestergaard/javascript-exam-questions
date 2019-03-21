@@ -6,7 +6,7 @@
 
 Scripting languages like PHP, JavaScript, Python or Ruby often allow for faster development. These languages are often more expressive and therefore allow for more features and functionality using fewer lines of code. 
 
-One of the reasons scripting languages allow for faster development is a faster build process, since many of these languages are interpreted rather than compiled. This means that the process of building and deploying to a development environment often takes mere seconds, this can be extremely important, since web-development often rely on a code-feedback loop.
+One of the reasons scripting languages allow for faster development is a faster build process, since many of these languages are interpreted rather than compiled. This means that the process of building and deploying to a development environment often takes mere seconds, this can be extremely important, since web-development often rely on a code-feedback loop. Especially when using server-side rendring.
 
 Scripting languages often also have a wast amount of libraries used for web-development.
 
