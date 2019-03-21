@@ -270,9 +270,57 @@ The demonstration can be found at [server-side-rendering-example](./server-side-
 
 ### Explain, using relevant examples, your strategy for implementing a REST-API with Node/Express and show how you can "test" all the four CRUD operations programmatically using, for example, the Request package.
 
-The project can be found at [rest-api-test-example](rest-api-test-example). The assertions are made using the `chai` testing framework. The requests to the server are made using the `chai-http` framework. The tests are run using the `mocha` library, using the `npm test` script.
+The project can be found at [rest-api-test-example](rest-api-test-example). The assertions are made using the `chai` testing framework. The requests to the server are made using the `chai-http` library. The tests are run using the `mocha` library, using the `npm test` script.
+
+- https://medium.com/@asciidev/testing-a-node-express-application-with-mocha-chai-9592d41c0083
+- https://scotch.io/tutorials/test-a-node-restful-api-with-mocha-and-chai
+- https://blog.khophi.co/mocha-chai-chai-http-test-express-api-auth-endpoints/
 
 ### Explain, using relevant examples, about testing JavaScript code, relevant packages (Mocha etc.) and how to test asynchronous code.
+
+Testing code is always important when developing software. But one could argue that testing JavaScript is even more useful than testing statically types languages like Java or C#. There is a whole new class of errors to be found. In statically types languges many errors are caught at compile-time. Since JavaScript is dynamically types, these errors must be caught by running the program first.
+
+Furtermore, I would argue that JavaScript has many quirks that make it more error-prone than other languages. Some examples can be found [here](http://2ality.com/2013/04/12quirks.html) and [here](https://www.telerik.com/blogs/seven-javascript-quirks-i-wish-id-known-about). - These include `undefined` vs `null`, `==` vs `===`, and the behaviour of the `this` keyword. These quirks increase the likelyhood that your program has bugs, since the program becomes harder to reason about. [This page](https://charlieharvey.org.uk/page/javascript_the_weird_parts) contains other counterintuitive JavaScript behavoirs.
+
+
+- https://blog.logrocket.com/a-quick-and-complete-guide-to-mocha-testing-d0e0ea09f09d
+- https://javascript.info/testing-mocha
+- https://www.codecademy.com/articles/bapi-testing-intro
+
+I currently use the `mocha` testing library. Testing frameworks contain the code needed to execute the defined tests. They also provide a console-based interface that displays the tests and their result. Unlike `Junit` from the Java environment, `mocha` does not contain any assertion helpers such as `assertEquals` or `assertTrue`. This functionality is included with a seperate assertion library. In the above example i use `chai` as the assertion library. Most assertion libraries are interoperable with all other testing frameworks.
+
+In addition i also use the `chai-http` extension to `chai`. This adds the `request` method to the `chai` object.
+
+```js
+chai.request(server) // The server is an instance of HttpServer
+    .get('/url') // There are functions for the other HTTP methods (.post, .delete, .put)
+    .end((err, res) => {
+        expect(res).to.have.status(200)
+        expect(res).to.be.json
+        // err when something went wrong
+        // res is the response to the request
+    })
+```
+
+The `chai-http` extension also adds some assertions that can be used to run assertions on the returned response object.
+
+```js
+interface Assertion {
+            redirectTo(location: string): Assertion;
+            param(key: string, value?: string): Assertion;
+            cookie(key: string, value?: string): Assertion;
+            status(code: number): Assertion; // Checks the HTTP code on the response
+            statusCode(code: number): Assertion;
+            header(key: string, value?: string | RegExp): Assertion; // Checks if a response header exists on the response.
+            headers: Assertion;
+            json: Assertion; // Checks that the response Content-Type is application/json
+            text: Assertion;
+            html: Assertion;
+            redirect: Assertion; // Checks whether or not the returned request has a HTTP redirect code.
+        }
+```
+
+// TODO testing async code
 
 ### Explain, using relevant examples, different ways to mock out databases, HTTP-request etc.
 

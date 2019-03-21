@@ -1,9 +1,27 @@
 const createApplication = require('../src/app')
 const Book = require('./MemoryBook')
 
-const bookA = { "id": "a_id", "name": "a_name", "email": "a_emai", "phone": "a_phone", "address": "a_address" }
-const bookB = { "id": "b_id", "name": "b_name", "email": "b_emai", "phone": "b_phone", "address": "b_address" }
-const bookC = { "id": "c_id", "name": "c_name", "email": "c_emai", "phone": "c_phone", "address": "c_address" }
+const bookA = {
+    "id": "a_id",
+    "name": "a_name",
+    "email": "a_emai",
+    "phone": "a_phone",
+    "address": "a_address"
+}
+const bookB = {
+    "id": "b_id",
+    "name": "b_name",
+    "email": "b_emai",
+    "phone": "b_phone",
+    "address": "b_address"
+}
+const bookC = {
+    "id": "c_id",
+    "name": "c_name",
+    "email": "c_emai",
+    "phone": "c_phone",
+    "address": "c_address"
+}
 
 const books = new Book([bookA, bookB, bookC])
 const app = createApplication(books)
@@ -16,8 +34,9 @@ chai.use(chaiHttp)
 describe('Restful book api', function () {
 
     before(function (done) {
-        this.server = app.listen(3004);
-        done()
+        this.server = app.listen(3004, function () {
+            done()
+        });
     });
 
     beforeEach(function (done) {
@@ -58,13 +77,20 @@ describe('Restful book api', function () {
                 expect(err).to.be.null;
                 expect(res).to.have.status(404)
                 expect(res).to.be.json;
-                expect(res.body).to.be.eql({ message: 'Could not find book' })
+                expect(res.body).to.be.eql({
+                    message: 'Could not find book'
+                })
                 done()
             })
     })
 
     it('POST /books should create a new book', function (done) {
-        const toSubmit = { "name": "d_name", "email": "d_emai", "phone": "d_phone", "address": "d_address" }
+        const toSubmit = {
+            "name": "d_name",
+            "email": "d_emai",
+            "phone": "d_phone",
+            "address": "d_address"
+        }
         chai.request(this.server)
             .post('/books')
             .send(toSubmit)
@@ -87,14 +113,18 @@ describe('Restful book api', function () {
                 expect(err).to.be.null;
                 expect(res).to.have.status(404)
                 expect(res).to.be.json;
-                expect(res.body).to.eql({ message: 'Could not find book' })
+                expect(res.body).to.eql({
+                    message: 'Could not find book'
+                })
                 done()
             })
     })
 
     it('PUT /books/:id should update an existing book', function (done) {
 
-        const toUpdate = { name: 'new_a_name' }
+        const toUpdate = {
+            name: 'new_a_name'
+        }
         chai.request(this.server)
             .put('/books/a_id')
             .send(toUpdate)
@@ -114,13 +144,15 @@ describe('Restful book api', function () {
                 expect(err).to.be.null;
                 expect(res).to.have.status(404)
                 expect(res).to.be.json;
-                expect(res.body).to.eql({ message: 'Could not find book' })
+                expect(res.body).to.eql({
+                    message: 'Could not find book'
+                })
                 done()
             })
     })
 
     it('DELETE /books/:id should delete the book with the provided id.', function (done) {
-        
+
         expect(books.get('a_id')).not.to.be.null; // before
 
         chai.request(this.server)
