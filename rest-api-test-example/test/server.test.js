@@ -1,5 +1,5 @@
 const createApplication = require('../src/app')
-const Book = require('../src/MemoryBook')
+const Book = require('./MemoryBook')
 
 const bookA = { "id": "a_id", "name": "a_name", "email": "a_emai", "phone": "a_phone", "address": "a_address" }
 const bookB = { "id": "b_id", "name": "b_name", "email": "b_emai", "phone": "b_phone", "address": "b_address" }
@@ -17,7 +17,6 @@ describe('Restful book api', function () {
 
     before(function (done) {
         this.server = app.listen(3004);
-        console.log("Test server opened")
         done()
     });
 
