@@ -1,8 +1,7 @@
-function createApplication(bookFile) {
+function createApplication(books) {
 
     const express = require('express')
-    const Book = require('./Book')
-    const books = new Book(bookFile)
+    const app = express()
 
     app.set('json spaces', 2)
     app.use(express.json())
@@ -32,12 +31,26 @@ function createApplication(bookFile) {
 
     app.put('/books/:id', async function (req, res) {
         const result = await books.put(req.params.id, req.body)
-        res.json(result)
+        if (!result) {
+            res.status(404)
+            res.json({
+                message: "Could not find book"
+            })
+        } else {
+            res.json(result)
+        }
     })
 
     app.delete('/books/:id', async function (req, res) {
         const result = await books.delete(req.params.id)
-        res.json(result)
+        if (!result) {
+            res.status(404)
+            res.json({
+                message: "Could not find book"
+            })
+        } else {
+            res.json(result)
+        }
     })
 
     return app

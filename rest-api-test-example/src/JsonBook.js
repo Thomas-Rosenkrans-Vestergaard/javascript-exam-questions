@@ -1,43 +1,38 @@
 const fs = require('fs')
 
-class Book {
+class JsonBook {
 
     constructor(file) {
         this.file = file;
-        this.books = JSON.parse(fs.readFileSync(file, 'utf-8'));
-    }
-
-    async all() {
-        return this.books
-    }
-
-    async clear() {
-        this.books = []
-        await this.save()
-    }
-
-    async get(id) {
-        return new Promise((resolve, error) => {
-            for (let book of this.books.values()) {
-                if (book.id == id) {
-                    resolve(book)
-                    return;
-                }
-            }
-
-            resolve(null)
+        this.books = {};
+        JSON.parse(fs.readFileSync(file, 'utf-8')).forEach(book => {
+            if (book)
+                this.books[book.id] = book
         })
     }
 
+    async all() {
+        return Object.values(this.books)
+    }
+
+    async clear() {
+        this.books = {}
+        await this.__save()
+    }
+
+    async get(id) {
+        return this.books[id]
+    }
+
     async add(book) {
-        book.id = this.randomId()
-        this.books.push(book)
-        this.save()
+        book.id = this.__randomId()
+        this.books[book.id] = book
+        this.__save()
         return book
     }
 
     async put(id, book) {
-        const found = await this.get(id)
+        const found = await this.books[id]
         if (!found)
             return null
 
@@ -46,16 +41,16 @@ class Book {
                 found[key] = book[key]
             }
         })
-        this.save()
+        this.__save()
         return found
     }
 
     async delete(idToDelete) {
         return new Promise((resolve, error) => {
-            for (let [id, book] of this.books.entries()) {
+            for (let [id, book] of Object.entries(this.books)) {
                 if (book && book.id == idToDelete) {
                     delete this.books[id]
-                    this.save()
+                    this.__save()
                     resolve(book)
                     return;
                 }
@@ -65,11 +60,11 @@ class Book {
         })
     }
 
-    async save() {
+    async __save() {
         fs.writeFileSync(this.file, JSON.stringify(this.books), 'utf-8')
     }
 
-    randomId() {
+    __randomId() {
         var text = "";
         var possible = "abcdef0123456789";
         for (var i = 0; i < 24; i++)
@@ -79,4 +74,4 @@ class Book {
     }
 }
 
-module.exports = Book
+module.exports = JsonBook
