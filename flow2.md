@@ -247,7 +247,7 @@ app.get('/', function(req, res) {
     else
         req.session.visits++;
 
-    res.send(`Numbers of visits: ${req.session.visits");
+    res.send(`Numbers of visits: ${req.session.visits}`);
 })
 ```
 
