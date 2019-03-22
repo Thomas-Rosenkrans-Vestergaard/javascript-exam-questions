@@ -320,7 +320,38 @@ interface Assertion {
         }
 ```
 
-// TODO testing async code
+Since JavaScript focuses heavily on asynchronous code, the testing frameworks must also be designed to handle that type of code. The standard way to test asynchronous code in Mocha, is to invoke the callback provided to the `before`, `after`, `it` and other blocks. This function is by convention called `done`. This function should be invoked to let Mocha know, that your tests have finished. When an error occurs, that error should be passed to the callback, to let Mocha know that the test failed.
+
+```js
+describe('fetch', function () {
+
+    before(function (done) {
+        
+    });
+
+    beforeEach(function (done) {
+    
+    })
+
+    it('should respond with 200', function (done) {
+        fetch('https://google.com')
+            .then(response => {
+                expect(response.status).to.be.eql(200)
+                done() // The test has finished
+            });
+    })
+
+    afterEach(function(done) {
+
+    })
+
+    after(function(done) {
+
+    })
+})
+```
+
+Mocha also has support for `Promise` based APIs. When returning a `Promise` from any of the blocks, Mocha will wait for the `Promise` to resolve or reject. This can save a few lines of code, and make the code easier to read.
 
 ### Explain, using relevant examples, different ways to mock out databases, HTTP-request etc.
 
