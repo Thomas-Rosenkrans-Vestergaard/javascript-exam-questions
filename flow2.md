@@ -465,6 +465,20 @@ The term NoSQL encompasses a large number of different database approaches. The 
 
 ### Explain Pros & Cons in using a NoSQL database like MongoDB as your data store, compared to a traditional Relational SQL Database like MySQL.
 
+- https://medium.com/@jon.perera/sql-vs-nosql-a-beginners-guide-f80991f76a4b
+- https://www.mongodb.com/scale/nosql-databases-pros-and-cons
+- https://www.quora.com/What-are-the-pros-and-cons-of-NoSQL-databases
+
+#### Pros
+
+- **Flexible Data Model.** Unlike relational databases, NoSQL databases easily store and combine any type of data, both structured and unstructured. You can also dynamically update the schema to evolve with changing requirements and without any interruption or downtime to your application.
+- **Elastic Scalability.** NoSQL databases scale out on low cost, commodity hardware, allowing for almost unlimited growth.
+- **Simplicity.** NoSQL databases may be more simple to get up and running.
+
+#### Cons
+
+- With a NoSQL datastore, you have to code the integrity mechanisms into your application. As a rule, they’re simple `key=value` stores; nothing in the way the data is structured or stored imposes any logical consistency (across tables).
+
 ### Explain reasons to add a layer like Mongoose, on top on of a schema-less database like MongoDB
 
 ### Explain about indexes in MongoDB, how to create them, and demonstrate how you have used them.
