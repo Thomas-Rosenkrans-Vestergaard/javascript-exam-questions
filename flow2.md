@@ -454,6 +454,15 @@ Many actions can be taken during development, to ease the deployment of the appl
 
 ### Explain, generally, what is meant by a NoSQL database.
 
+- https://en.wikipedia.org/wiki/NoSQL
+- https://www.mongodb.com/nosql-inline
+
+> A NoSQL (originally referring to "non SQL" or "non relational")database provides a mechanism for storage and retrieval of data that is modeled in means other than the tabular relations used in relational databases.
+
+The term NoSQL encompasses a large number of different database approaches. The one common component, is that they all differ from [relational databases](https://en.wikipedia.org/wiki/Relational_database).
+
+> [Relational databases] organizes data into one or more tables (or "relations") of columns and rows, with a unique key identifying each row. Rows are also called records or tuples. Columns are also called attributes. Generally, each table/relation represents one "entity type" (such as customer or product). The rows represent instances of that type of entity (such as "Lee" or "chair") and the columns representing values attributed to that instance (such as address or price).
+
 ### Explain Pros & Cons in using a NoSQL database like MongoDB as your data store, compared to a traditional Relational SQL Database like MySQL.
 
 ### Explain reasons to add a layer like Mongoose, on top on of a schema-less database like MongoDB
