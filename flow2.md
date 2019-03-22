@@ -414,6 +414,42 @@ The same concept applies to the mocking a database connection. An example of thi
 
 ### Explain, preferably using an example, how you have deployed your node/Express applications, and which of the Express Production best practices you have followed.
 
+- https://expressjs.com/en/advanced/best-practice-performance.html
+- https://expressjs.com/en/advanced/best-practice-security.html
+- https://developer.mozilla.org/en-US/docs/Learn/Server-side/Express_Nodejs/deployment
+- https://medium.freecodecamp.org/how-to-write-a-production-ready-node-and-express-app-f214f0b17d8c
+- https://www.codementor.io/mattgoldspink/nodejs-best-practices-du1086jja
+
+#### Performance
+
+Performance might not matter that much during development of the server, since only the deveopers are using the product. When the product is deployed the number of users will increase.
+
+- Use compression to send content to clients.
+- Don’t use synchronous functions
+- Run the application on multiple cores.
+- Cache database callback, and condigure HTTP caching.
+- Use a load balancer to balance out traffic to many instances of the application.
+- Set the `NODE_ENV` environment variable to `production`. This may [improve performance significantly](https://www.dynatrace.com/news/blog/the-drastic-effects-of-omitting-node-env-in-your-express-js-applications/).
+
+#### Security
+
+>The term “production” refers to the stage in the software lifecycle when an application or API is generally available to its end-users or consumers. In contrast, in the “development” stage, you’re still actively writing and testing code, and the application is not open to external access. The corresponding system environments are known as production and development environments, respectively.
+>
+>Development and production environments are usually set up differently and have vastly different requirements. What’s fine in development may not be acceptable in production. For example, in a development environment you may want verbose logging of errors for debugging, while the same behavior can become a security concern in a production environment. And in development, you don’t need to worry about scalability, reliability, and performance, while those concerns become critical in production.
+
+- Use up-to-date packages.
+- Configure the server to accept SSL connections.
+- Use [`helmet`](https://helmetjs.github.io/) to guard against various HTTP attacks.
+- Use best practices when handling user data and account security.
+
+#### Deployment and Maintenance
+
+Many actions can be taken during development, to ease the deployment of the application and ease into the maintenance phase.
+
+- Use environment variables and configuration files for connections to databases and other services.
+- Log important information about the usage of the application. This could be stuff like the frequency of the endpoints of the application.
+- Use a process manager to automatically restart the application in the event of a crash.
+
 ## NoSQL, MongoDB and Mongoose
 
 ### Explain, generally, what is meant by a NoSQL database.
