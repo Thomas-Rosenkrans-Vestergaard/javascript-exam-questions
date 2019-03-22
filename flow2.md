@@ -355,7 +355,62 @@ Mocha also has support for `Promise` based APIs. When returning a `Promise` from
 
 ### Explain, using relevant examples, different ways to mock out databases, HTTP-request etc.
 
+- https://stackoverflow.com/questions/2665812/what-is-mocking
 
+> Mocking is primarily used in unit testing. An object under test may have dependencies on other (complex) objects. To isolate the behavior of the object you want to replace the other objects by mocks that simulate the behavior of the real objects. This is useful if the real objects are impractical to incorporate into the unit test.
+>
+>In short, mocking is creating objects that simulate the behavior of real objects.
+>
+>A mock is like a stub but the test will also verify that the object under test calls the mock as expected. Part of the test is verifying that the mock was used correctly.
+>
+>To give an example: You can stub a database by implementing a simple in-memory structure for storing records. The object under test can then read and write records to the database stub to allow it to execute the test. This could test some behavior of the object not related to the database and the database stub would be included just to let the test run.
+>
+>If you instead want to verify that the object under test writes some specific data to the database you will have to mock the database. Your test would then incorporate assertions about what was written to the database mock.
+
+Note that mocking is not retricted to objects. Functions can also easily be mocked. An example could be testing webscraping component.
+
+```js
+// WebScaper.js
+class WebScraper {
+    
+    constructor(fetcher) {
+        this.fetcher = fetcher
+    }
+
+    async scrape(url) {
+        const response = this.fetcher(url)
+        return response.text.substring(5)
+    }
+}
+
+const instance = new WebScraper(fetch) // fetch from node-fetch
+```
+
+In the above example our `WebScracper` class depends on another unit `fetcher`. The `fetcher` is responsible for making a HTTP request to the provided url. We want to ensure the `WebScraper` component works, that is returns the first 5 characters (a real webscraper would have much more functionality). We could acchieve this by making a _real_ HTTP request, but there are some brawbacks to this:
+
+- We need to be able to rely on the returned value. This rules out urls that are not controlled by us. These might change content, and our test would break.
+- The target webpage may temporarily be down. This would break our test.
+- Making HTTP requests are generally slow.
+- We could start up our own webserver, and make the HTTP request to this server. Starting a server is also generally slow.
+
+Instead we could _mock_ the dependant units (`fetcher`), so that we can ensure predictable behaviour. 
+
+```js
+// WebScaper.test.js
+
+// Create our mock
+function createMockFetch(text) {
+    return () => {text}
+}
+
+const testInstance = new WebScraper(createMockFetch('Hello World')) // provide our mock, instead of the real fetch function
+const result = testInstance.scrape('')
+expect(result).to.be.eql('Hello')
+```
+
+When mocking, it is important that the mock object or function, behaves just like the target object or function. In the above example i have only mocked the needed functionality (the `text` property).
+
+The same concept applies to the mocking a database connection. An example of this can be found [here](rest-api-test-example/test/MemoryBook.js), where `MemoryBook` is a mock of [`JsonBook`](rest-api-test-example/src/JsonBook.js).
 
 ### Explain, preferably using an example, how you have deployed your node/Express applications, and which of the Express Production best practices you have followed.
 
