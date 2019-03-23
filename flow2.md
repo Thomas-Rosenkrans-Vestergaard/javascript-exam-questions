@@ -507,6 +507,22 @@ Additionally Mongoose provides custom validation of documents. This works by def
 
 ### Explain about indexes in MongoDB, how to create them, and demonstrate how you have used them.
 
+- https://docs.mongodb.com/manual/indexes/
+- https://www.tutorialspoint.com/mongodb/mongodb_indexing.htm
+
+> Indexes support the efficient execution of queries in MongoDB. Without indexes, MongoDB must perform a collection scan, i.e. scan every document in a collection, to select those documents that match the query statement. If an appropriate index exists for a query, MongoDB can use the index to limit the number of documents it must inspect.
+
+> Fundamentally, indexes in MongoDB are similar to indexes in other database systems. MongoDB defines indexes at the collection level and supports indexes on any field or sub-field of the documents in a MongoDB collection.
+
+The first index that most developers use, is the default indexes placed on the implicit `_id` property on documents.
+
+> MongoDB creates a unique index on the _id field during the creation of a collection. The _id index prevents clients from inserting two documents with the same value for the _id field. You cannot drop this index on the _id field.
+
+There are various types of indexes that can be applied:
+- **Single Field** indexes are applied to a single field on some document.
+- **Compound** indexes are applied to multiple fields at the same time. An example of usage could be uniqueness accross multiple fields.
+- **Multikey** indexes are applies to array values in documents. Applying an index to `Person.address` of type `[String]` would mean that an index is created for all the addresses.
+
 ### Explain, using your own code examples, how you have used some of MongoDB's "special" indexes like TTL and 2dsphere
 
 ### Demonstrate, using a REST-API you have designed, how to perform all CRUD operations on a MongoDB
