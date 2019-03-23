@@ -481,6 +481,30 @@ The term NoSQL encompasses a large number of different database approaches. The 
 
 ### Explain reasons to add a layer like Mongoose, on top on of a schema-less database like MongoDB
 
+Even though a schema-less database could have some advantages, most projects benifit from the data validation and integrity that comes with having a schema. As a developer, you still retain the benifits of a schema-less database, since mongoose can be applied only to the documents of your choice.
+
+Mongoose provides all the simple datatypes defined in ECMAScript, along with validation of sub-documents. Mongoose also provides static methods for querying the models.
+
+```js
+Model.deleteMany()
+Model.deleteOne()
+Model.find()
+Model.findById()
+Model.findByIdAndDelete()
+Model.findByIdAndRemove()
+Model.findByIdAndUpdate()
+Model.findOne()
+Model.findOneAndDelete()
+Model.findOneAndRemove()
+Model.findOneAndUpdate()
+Model.replaceOne()
+Model.updateMany()
+Model.updateOne()
+// https://mongoosejs.com/docs/queries.html
+```
+
+Additionally Mongoose provides custom validation of documents. This works by defining `middleware` that can be applied when an action if perform on the specified type of document.
+
 ### Explain about indexes in MongoDB, how to create them, and demonstrate how you have used them.
 
 ### Explain, using your own code examples, how you have used some of MongoDB's "special" indexes like TTL and 2dsphere
