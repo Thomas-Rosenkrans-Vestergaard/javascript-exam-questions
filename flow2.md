@@ -556,7 +556,7 @@ There are also some drawbacks to normalization.
 - Since data is not duplicated, table joins are required. This makes queries more complicated, and thus read times are slower.
 - Since joins are required, indexing does not work as efficiently. Again, this makes read times slower because the joins don't typically work well with indexing.
 
-Generally, you want to use normalization and a relational database when you require data integrity, or when creating a write-intensive application. When creating a read-intensive application, a NoSQL solution within normalization may be better, since many `JOIN`s can be eliminated. Alternatively you can use both a relational and non-relational database, to implement specific features within your application. 
+Generally, you want to use normalization and a relational database when you require data integrity, or when creating a write-intensive application. When creating a read-intensive application, a NoSQL solution weithout normalization may be better, since many `JOIN`s can be eliminated. Alternatively you can use both a relational and non-relational database, to implement specific features within your application. 
 
 The rules of thumb described in the articles are about when to embed entity relationships into subdocuments, versus seperating the entities into seperate collections. When applying normalization, the latter option is used.
 
@@ -572,13 +572,12 @@ Book
 Author
     name
     aliases
-User
-    name
 
-where:
-- there is a many to many relationship between Book and Author.
-
-
+where there is a many to many relationship between Book and Author.
 ```
+
+When using normalization, we have to perform a `JOIN` to retrieve the relationship between `Book` and `Author`. This incurs a performance penalty. We could of course embed one entity into the other, but this would also come with some serious drawbacks. We can no longer effeciently perform search on the embedded document, since we would first need to iterate through all the parent documents.
+
+We would also have lots of duplicate data. If we embedded the `Author` entity inside the `Book` entity, we many have multiple `Author` records representing the same author. If we wanted to update that author, we would need to update the information in multiple `Book` documents
 
 ### Explain, using a relevant example, a full JavaScript backend including relevant test cases to test the REST-API.
