@@ -529,6 +529,56 @@ There are various types of indexes that can be applied:
 
 ### Explain the “6 Rules of Thumb: Your Guide Through the Rainbow” as to how and when you would use normalization vs. denormalization.
 
+- https://www.mongodb.com/blog/post/6-rules-of-thumb-for-mongodb-schema-design-part-1
+- https://www.mongodb.com/blog/post/6-rules-of-thumb-for-mongodb-schema-design-part-2
+- https://www.mongodb.com/blog/post/6-rules-of-thumb-for-mongodb-schema-design-part-3
+- https://en.wikipedia.org/wiki/Database_normalization
+
+> Database normalization is the process of structuring a relational database in accordance with a series of so-called normal forms in order to reduce data redundancy and improve data integrity.
+
+> Normalization entails organizing the columns (attributes) and tables (relations) of a database to ensure that their dependencies are properly enforced by database integrity constraints. It is accomplished by applying some formal rules either by a process of synthesis (creating a new database design) or decomposition (improving an existing database design).
+
+> Normalization is a database design technique, which is used to design a relational database table up to higher normal form. The process is progressive, and a higher level of database normalization cannot be achieved unless the previous levels have been satisfied.
+>
+> That means that, having data in unnormalized form (the least normalized) and aiming to achieve the highest level of normalization, the first step would be to ensure compliance to first normal form, the second step would be to ensure second normal form is satisfied, and so forth in order mentioned above, until the data conform to sixth normal form.
+
+- https://dzone.com/articles/pros-and-cons-of-database-normalization
+
+The reasons for using normalization when using relational databases, are:
+- Removes data repetition.
+- Ensures data consistency and integrity.
+- Updates run quickly due to no data being duplicated in multiple locations.
+- Inserts run quickly since there is only a single insertion point for a piece of data and no duplication is required.
+- Tables are typically smaller than the tables found in non-normalized databases. This usually allows the tables to fit into the buffer, thus offering faster performance.
+- Use can always select enties from any single table.
+
+There are also some drawbacks to normalization.
+- Since data is not duplicated, table joins are required. This makes queries more complicated, and thus read times are slower.
+- Since joins are required, indexing does not work as efficiently. Again, this makes read times slower because the joins don't typically work well with indexing.
+
+Generally, you want to use normalization and a relational database when you require data integrity, or when creating a write-intensive application. When creating a read-intensive application, a NoSQL solution within normalization may be better, since many `JOIN`s can be eliminated. Alternatively you can use both a relational and non-relational database, to implement specific features within your application. 
+
+The rules of thumb described in the articles are about when to embed entity relationships into subdocuments, versus seperating the entities into seperate collections. When applying normalization, the latter option is used.
+
 ### Demonstrate, using your own code-samples, decisions you have made regarding → normalization vs denormalization 
+
+Consider the following model:
+
+```
+Book
+    title
+    released
+
+Author
+    name
+    aliases
+User
+    name
+
+where:
+- there is a many to many relationship between Book and Author.
+
+
+```
 
 ### Explain, using a relevant example, a full JavaScript backend including relevant test cases to test the REST-API.
