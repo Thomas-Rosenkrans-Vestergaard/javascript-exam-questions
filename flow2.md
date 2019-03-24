@@ -578,6 +578,8 @@ where there is a many to many relationship between Book and Author.
 
 When using normalization, we have to perform a `JOIN` to retrieve the relationship between `Book` and `Author`. This incurs a performance penalty. We could of course embed one entity into the other, but this would also come with some serious drawbacks. We can no longer effeciently perform search on the embedded document, since we would first need to iterate through all the parent documents.
 
-We would also have lots of duplicate data. If we embedded the `Author` entity inside the `Book` entity, we many have multiple `Author` records representing the same author. If we wanted to update that author, we would need to update the information in multiple `Book` documents
+We would also have lots of duplicate data. If we embedded the `Author` entity inside the `Book` entity, we many have multiple `Author` records representing the same author. If we wanted to update that author, we would need to update the information in multiple `Book` documents.
+
+The tradeoff between embedding and not embedding is fast read vs fast write.
 
 ### Explain, using a relevant example, a full JavaScript backend including relevant test cases to test the REST-API.
