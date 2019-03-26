@@ -4,17 +4,7 @@ const User = require('../data/User')
 const jwt = require('jsonwebtoken');
 const config = require('../config')
 const { check, validationResult } = require('express-validator/check');
-
-function error(status, message, validationErrors) {
-    const o = {
-        status, message
-    }
-
-    if (validationErrors)
-        o.errors = validationErrors.array()
-
-    return o
-}
+const error = require('./error')
 
 const registrationValidators = [
     check('email').isEmail().withMessage("Must be a valid email address."),

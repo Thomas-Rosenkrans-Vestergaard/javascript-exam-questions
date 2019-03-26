@@ -8,8 +8,8 @@ function errorHandler(err, req, res, next) {
     res.json(err)
 }
 
-const users = require('./users')
-router.use('/users', users)
+router.use('/users', require('./users'))
+router.use('/locations', require('./locations'))
 router.use(errorHandler)
 
 module.exports = router
