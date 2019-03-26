@@ -1,12 +1,19 @@
 const express = require('express')
 const router = express.Router()
 const User = require('../data/User')
+const jwt = require('jsonwebtoken');
+const config = require('../config')
 const { check, validationResult } = require('express-validator/check');
 
 function error(status, message, validationErrors) {
-    return {
-        status, message, errors: validationErrors.array()
+    const o = {
+        status, message
     }
+
+    if (validationErrors)
+        o.errors = validationErrors.array()
+
+    return o
 }
 
 const registrationValidators = [
@@ -25,7 +32,7 @@ router.post('/register', registrationValidators, (req, res, next) => {
             return next(err(422, err))
 
         res.status(201)
-        res.json(created)
+        res.json(created.toObject())
     })
 })
 
@@ -44,8 +51,16 @@ router.post('/authenticate', authenticationValidators, (req, res, next) => {
         if (err)
             return next(error(401, err))
 
-        res.status(400)
-        res.json(authenticated)
+        jwt.sign({ email: authenticated.email }, config.JWT_KEY, { algorithm: 'HS256' }, function (err, token) {
+            if (err)
+                return next(error(401, "Could not sign JWT."), console.error(err))
+
+            authenticated = authenticated.toObject()
+            authenticated.token = token
+            console.log(authenticated)
+            res.status(200)
+            res.json(authenticated)
+        });
     })
 })
 
