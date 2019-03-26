@@ -1,8 +1,9 @@
 const express = require('express')
 const cors = require('cors')
 const mongoose = require('mongoose')
+const config = require('./config')
 
-mongoose.connect('mongodb+srv://node:JegIKaZo1nrw866r@cluster0-kedzx.mongodb.net/geo-rest-example?authSource=admin&retryWrites=true', { createIndexes: true, useNewUrlParser: true });
+mongoose.connect(config.MONGO_URL, { createIndexes: true, useNewUrlParser: true });
 
 const app = express()
 
