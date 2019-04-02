@@ -13,7 +13,13 @@ module.exports = function (req, res, next) {
         if (err)
             return next(error(401, "Could not verify JWT."))
 
-        req.authorization = decoded
-        next()
+        User.findOne({ email: decoded.email }, {}, (err, found) => {
+            if (!found)
+                return next(error(404, "Could not verify identity."))
+
+            req.authorization = decoded
+            req.user = found
+            next()
+        })
     });
 }

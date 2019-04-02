@@ -1,4 +1,4 @@
-module.exports = function error(status, message, validationErrors) {
+module.exports = function error(status, message, validationErrors, error) {
     const o = {
         status, message
     }
@@ -6,5 +6,7 @@ module.exports = function error(status, message, validationErrors) {
     if (validationErrors)
         o.errors = validationErrors.array()
 
-    return o
+
+
+    return o;
 }

@@ -1,9 +1,11 @@
 const bcrypt = require('bcrypt')
 const { Schema, model } = require('mongoose')
+const {LocationSchema} = require('./Location') 
 
 const schema = new Schema({
     email: { type: String, unique: true, required: true },
-    password: { type: String, unique: true, required: true }
+    password: { type: String, unique: true, required: true },
+    locations: [{type: LocationSchema}]
 }, { strict: true })
 
 schema.statics.authenticate = function (email, password, cb) {
