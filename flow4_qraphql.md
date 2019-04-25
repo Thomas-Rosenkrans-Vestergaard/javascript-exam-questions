@@ -43,7 +43,7 @@ GraphQL fixes this by requiring the fields that must be retrieved from the serve
 }
 ```
 
-Above we specify that the books should contain the `title` and `authors` field, but no other fields. The same technique is used to limit the fields on the `Author` entity.
+Above we specify that the books should contain the `title` and `authors` field, but no other fields. The same technique is used to limit the fields on the `Author` entity. This information is sent when making the request.
 
 ### Explain shortly about GraphQL’s type system and some of the benefits we get from this.
 

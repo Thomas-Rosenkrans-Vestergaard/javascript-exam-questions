@@ -3,6 +3,8 @@ import ApolloClient from 'apollo-boost';
 import { HttpLink } from 'apollo-link-http';
 import { InMemoryCache } from 'apollo-cache-inmemory';
 import { ApolloProvider } from "react-apollo";
+import BookCrud from "./BookCrud";
+import './App.css';
 
 const client = new ApolloClient({
   uri: "http://localhost:4000/",
@@ -12,13 +14,13 @@ const client = new ApolloClient({
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
+    <div id="contaniner">
+      <header>
         <h1>Apollo React</h1>
       </header>
       <main>
         <ApolloProvider client={client}>
-              
+              <BookCrud/>
         </ApolloProvider>
       </main>
     </div>
