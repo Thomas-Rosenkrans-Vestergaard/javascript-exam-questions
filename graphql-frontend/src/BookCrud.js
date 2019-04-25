@@ -26,6 +26,7 @@ export default class BookCrud extends Component {
 
     delete = (bookId) => {
         const query = MAKE_DELETE_BOOK(bookId)
+        
     }
 
     render() {
