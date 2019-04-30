@@ -4,6 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
+    "watch": "nodemon server.js",
+    "start": "node server.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
@@ -14,5 +16,8 @@
     "express": "^4.16.4",
     "express-graphql": "^0.8.0",
     "graphql": "^14.2.1"
+  },
+  "devDependencies": {
+    "nodemon": "1.18.11"
   }
 }

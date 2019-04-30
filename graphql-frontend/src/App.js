@@ -20,7 +20,7 @@ function App() {
       </header>
       <main>
         <ApolloProvider client={client}>
-              <BookCrud/>
+              <BookCrud client={client}/>
         </ApolloProvider>
       </main>
     </div>

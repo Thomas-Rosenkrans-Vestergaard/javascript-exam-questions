@@ -10,6 +10,10 @@ type Author {
     name: String!
 }
 
+input AuthorInput {
+    id: ID!
+}
+
 enum BookType {
     ELECTRONIC_BOOK
     PAPER_BOOK
@@ -20,19 +24,23 @@ type Genre {
     name: String!
 }
 
+input GenreInput {
+    id: ID!
+}
+
 type Book {
     id: ID!
     title: String!
     type: BookType!
-    genre: [Genre]!
+    genres: [Genre]!
     authors: [Author]!
 }
 
 input BookInput {
     title: String!
     type: BookType!
-    genre: [Genre]!
-    authors: [Author]!
+    genres: [GenreInput]!
+    authors: [AuthorInput]!
 }
 
 type Query {
@@ -91,6 +99,7 @@ const root = {
     deleteBook: (args) => {
         const { id } = args;
         for (let i = 0; i < books.length; i++) {
+            const book = books[i]
             if (book.id == id) {
                 books.splice(i, 1)
                 return book;
