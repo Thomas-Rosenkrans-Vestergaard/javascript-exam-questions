@@ -84,10 +84,12 @@ Since geospacial data in MongoDB is just GeoJSON, MongoDB follows the same coord
 
 ## Explain and demonstrate a REST API that implements geo-features, using Mongodb’s geospatial queries and indexes.
 
-
+https://github.com/Thomas-Rosenkrans-Vestergaard/js-mini
 
 ## Explain and demonstrate a React Native Client that uses geo-components (Location, MapView, etc.)
 
-
+https://github.com/Thomas-Rosenkrans-Vestergaard/js-mini-app
 
 ## Demonstrate both server and client-side, of the geo-related parts of your implementation of the mini project
+
+https://github.com/Thomas-Rosenkrans-Vestergaard/js-mini

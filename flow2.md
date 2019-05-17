@@ -603,7 +603,7 @@ Above i used the mongoose schema definition strategy to add the `2dshere` to the
 
 ### Demonstrate, using a REST-API you have designed, how to perform all CRUD operations on a MongoDB.
 
-
+[mongo-rest-example](./mongo-rest-example)
 
 ### Explain the “6 Rules of Thumb: Your Guide Through the Rainbow” as to how and when you would use normalization vs. denormalization.
 
@@ -661,3 +661,5 @@ We would also have lots of duplicate data. If we embedded the `Author` entity in
 The tradeoff between embedding and not embedding is fast read vs fast write.
 
 ### Explain, using a relevant example, a full JavaScript backend including relevant test cases to test the REST-API.
+
+[rest-api-test-example](./rest-api-test-example)
