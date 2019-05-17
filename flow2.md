@@ -525,7 +525,85 @@ There are various types of indexes that can be applied:
 
 ### Explain, using your own code examples, how you have used some of MongoDB's "special" indexes like TTL and 2dsphere
 
-### Demonstrate, using a REST-API you have designed, how to perform all CRUD operations on a MongoDB
+#### [TTL](https://docs.mongodb.com/manual/core/index-ttl/)
+
+> TTL indexes are special single-field indexes that MongoDB can use to automatically remove documents from a collection after a certain amount of time or at a specific clock time. Data expiration is useful for certain types of information like machine generated event data, logs, and session information that only need to persist in a database for a finite amount of time.
+>
+>* TTL indexes expire documents after the specified number of seconds has passed since the indexed field value; i.e. the expiration threshold is the indexed field value plus the specified number of seconds.
+>
+>* If the field is an array, and there are multiple date values in the index, MongoDB uses lowest (i.e. earliest) date value in the array to calculate the expiration threshold.
+>
+>* If the indexed field in a document is not a date or an array that holds a date value(s), the document will not expire.
+>
+>* If a document does not contain the indexed field, the document will not expire.
+
+I have used the TTL index to ensure that user-positions are up to date. By deleting user-positions older than one minute.
+
+https://github.com/Thomas-Rosenkrans-Vestergaard/js-mini/blob/master/src/data/UserPosition.ts#L10
+
+```js
+
+const SECONDS = 1;
+const EXPIRES = 60 * SECONDS;
+
+export const UserPositionSchema = new Schema({
+    user: {type: Schema.Types.ObjectId, ref: "User", required: true},
+    created: {type: Date, expires: EXPIRES, default: Date.now},
+    position: {
+        type: {
+            type: String,
+            enum: ["Point"],
+            default: "Point",
+        },
+        coordinates: {
+            type: [Schema.Types.Number]
+        }
+    }
+});
+```
+
+Using mongoose, i defined a Schema to represent the position of a user. I added the `expires` property to the `created` field of the Schema. The value of the `expires` property is the number of seconds the document lives for (60).
+
+The equivalent index could be added using plain Mongo like so:
+
+```js
+db.userPositions.createIndex( 
+    { "created": 1 }, 
+    { expireAfterSeconds: EXPIRES })
+```
+
+#### [2dshere](https://docs.mongodb.com/manual/core/2dsphere/)
+
+> A 2dsphere index supports queries that calculate geometries on an earth-like sphere. 2dsphere index supports all MongoDB geospatial queries: queries for inclusion, intersection and proximity. For more information on geospatial queries, see Geospatial Queries.
+
+The data stored within the index is a GeoJson Point object. The index also supports other GeoJson types:
+
+> Version 2 and later 2dsphere indexes includes support for additional GeoJSON object: MultiPoint, MultiLineString, MultiPolygon, and GeometryCollection. For details on all supported GeoJSON objects, see GeoJSON Objects.
+
+```js
+export const UserPositionSchema = new Schema({
+    ...
+    position: {
+        type: {
+            type: String,
+            enum: ["Point"],
+            default: "Point",
+        },
+        coordinates: {
+            type: [Schema.Types.Number]
+        }
+    }
+});
+
+
+UserPositionSchema.index({ position: "2dsphere" });
+```
+
+Above i used the mongoose schema definition strategy to add the `2dshere` to the `position` field. The type of the `position` field matches syntax of the GeoJson Point data type.
+
+### Demonstrate, using a REST-API you have designed, how to perform all CRUD operations on a MongoDB.
+
+
 
 ### Explain the “6 Rules of Thumb: Your Guide Through the Rainbow” as to how and when you would use normalization vs. denormalization.
 
