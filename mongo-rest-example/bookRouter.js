@@ -33,12 +33,15 @@ router.put('/:id', async (req, res, next) => {
 
 router.delete('/:id', async (req, res, next) => {
     const deleted = await BookFacade.delete(req.params.id);
-    if (!found)
-        res.status(404).json({
+    console.log({deleted});
+    if (!deleted){
+        res.status(404);
+        res.json({
             message: `No book with provided id ${req.params.id}`
         });
-    else
-        res.status(204).json(found);
+    } else
+        res.status(200);
+        res.json(deleted);
 });
 
 module.exports = router;
