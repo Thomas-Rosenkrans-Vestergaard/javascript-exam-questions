@@ -17,18 +17,21 @@ module.exports = class BookFacade {
     }
 
     static async update(id, contents){
+
         const found = await BookModel.findById(id).exec();
         if(!found)
             return undefined;
 
-        const keys = Object.keys(found);
-        keys.forEach(k => {
-            if(has(content, key))
-                found[key] = content[key];
+        const keys = Object.keys(found.toObject());
+        keys.forEach(key => {
+            if(has(contents, key) && key != '_id' && key != '__v') {
+                found[key] = contents[key];
+                found.markModified(key);
+            }
         });
 
         await found.save();
-        return found;
+        return found.toObject();
     }
 
     static async delete(id){
@@ -37,5 +40,5 @@ module.exports = class BookFacade {
 }
 
 function has(object, key) {
-    return object ? hasOwnProperty.call(object, key) : false;
+    return object ? object.hasOwnProperty.call(object, key) : false;
  }

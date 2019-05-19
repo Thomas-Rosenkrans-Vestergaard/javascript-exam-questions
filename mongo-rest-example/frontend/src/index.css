@@ -11,3 +11,23 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
     monospace;
 }
+
+form {
+  padding: 20px;
+}
+
+label {
+  font-weight: bold;
+  text-align: left;
+}
+
+input, label {
+  padding: 10px;
+  display:block;
+}
+
+input[type="submit"] {
+  margin-top: 20px;
+  width: 100%;
+  text-align: center;
+}

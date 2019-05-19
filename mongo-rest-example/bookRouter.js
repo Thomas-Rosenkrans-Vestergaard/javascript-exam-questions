@@ -26,7 +26,7 @@ router.post('/', async (req, res, next) => {
 });
 
 router.put('/:id', async (req, res, next) => {
-    const updated = await BookFacade.update(req.params.id, res.body);
+    const updated = await BookFacade.update(req.params.id, req.body);
 
     res.json(updated);
 });
