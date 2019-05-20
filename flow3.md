@@ -80,7 +80,9 @@ Since geospacial data in MongoDB is just GeoJSON, MongoDB follows the same coord
 
 ## Explain and demonstrate a REST API that implements geo-features, using a relevant geo-library and plain JavaScript
 
+I have instead created a React application using a relevant geo-library.
 
+[geo-features-react](./geo-features-react)
 
 ## Explain and demonstrate a REST API that implements geo-features, using Mongodb’s geospatial queries and indexes.
 
