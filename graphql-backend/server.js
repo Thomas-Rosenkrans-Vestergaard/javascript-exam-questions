@@ -2,6 +2,7 @@ const { graphql, buildSchema } = require('graphql');
 const express = require('express');
 const graphqlHTTP = require('express-graphql');
 const cors = require('cors');
+const createData = require('./createData');
 
 const schema = buildSchema(`
 
@@ -45,8 +46,10 @@ input BookInput {
 
 type Query {
     books(n: Int = 20, start: Int=0): [Book]!
+    countBooks: Int!
     authors(n: Int =20, start: Int=0): [Author]!
-    genres: [Genre]! 
+    genres: [Genre]!
+    searchBooks(term: String!): [Book]!
 }
 
 type Mutation {
@@ -56,38 +59,15 @@ type Mutation {
 }
 `);
 
-const genres = [
-    { id: 1, name: "Drama" },
-    { id: 2, name: "Crime" },
-    { id: 3, name: "Fantasy" },
-    { id: 4, name: "Science Fiction" },
-    { id: 5, name: "Western" },
-    { id: 6, name: "Romance" },
-    { id: 7, name: "Thriller" },
-    { id: 8, name: "Mystery" },
-    { id: 9, name: "Horror" },
-    { id: 10, name: "Children" }
-];
-
-const authors = [
-    { id: 1, name: "Thomas Vestergaard" },
-    { id: 2, name: "Alexander Dradrach" },
-    { id: 3, name: "Steven Fuck" },
-    { id: 4, name: "Filip Filipovic" }
-];
-
-const books = [
-    { id: 1, title: "This is a great title", type: "PAPER_BOOK", authors: [authors[0], authors[1]], genre: [genres[0]] },
-    { id: 2, title: "This is a boring title", type: "ELECTRONIC_BOOK", authors: [authors[0]], genre: [genres[0]] },
-    { id: 3, title: "This is an exicting title", type: "PAPER_BOOK", authors: [authors[0], authors[2]], genre: [genres[2], genres[3], genres[4]] },
-    { id: 4, title: "This is a fine title", type: "PAPER_BOOK", authors: [authors[0], authors[3]], genre: [genres[0]] },
-    { id: 5, title: "This is another great title", type: "PAPER_BOOK", authors: [authors[0]], genre: [genres[0]] },
-]
+const {genres, authors, books} = createData();
 
 const root = {
     books: args => {
         const { n, start } = args;
         return books.slice(start, start + n);
+    },
+    countBooks: args => {
+        return books.length;
     },
     authors: args => {
         const { n, start } = args;
@@ -108,13 +88,8 @@ const root = {
 
         return null;
     },
-    updateBook: (args) => {
-        const { id, input } = args;
-        
-    },
-    createBook: (args) => {
-        const { id, input } = args;
-
+    searchBooks: (args) => {
+        return books.filter(book => book.title.toLowerCase().includes(args.term.toLowerCase()))
     }
 };
 
