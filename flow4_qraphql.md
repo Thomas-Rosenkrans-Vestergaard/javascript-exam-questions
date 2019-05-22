@@ -104,11 +104,13 @@ Here we define three queries `books`, `authors` and `genres`. We also declare th
 
 ### Provide a number of examples demonstrating data fetching with GraphQL. You should provide examples both running in a Sandbox/playground and examples executed in an Apollo Client
 
+`Query`: [BookCrud_Legacy.js](https://github.com/Thomas-Rosenkrans-Vestergaard/javascript-exam-questions/tree/master/graphql-frontend/src/BookCrud_Lagacy.js)
 
+`client.query`: [BookCrud.js](https://github.com/Thomas-Rosenkrans-Vestergaard/javascript-exam-questions/tree/master/graphql-frontend/src/BookCrud.js).
 
 ### Provide a number of examples demonstrating creating, updating and deleting with Mutations. You should provide examples both running in a Sandbox/playground and examples executed in an Apollo Client.
 
-
+`client.query`: [BookCrud.js](https://github.com/Thomas-Rosenkrans-Vestergaard/javascript-exam-questions/tree/master/graphql-frontend/src/BookCrud.js).
 
 ### Explain the Concept of a Resolver function, and provide a number of simple example of resolvers you have implemented in a GraphQL Server.
 
@@ -136,70 +138,23 @@ Here are the resolver functions for the above schema.
 
 ### Explain the benefits we get from using a library like Apollo-client, compared to using the plain fetch-API
 
+It's important to note that GraphQL is not a webserver or data exchange protocol. GraphQL defines two languages for exchanging data between a client and server.
 
+> GraphQL is an open-source data query and manipulation language for APIs, and a runtime for fulfilling queries with existing data.
+
+Most GraphQL server implementations use HTTP POST requests to query the server and mutate data.
+
+> If you boil it down to the basics, a GraphQL client is code that makes a POST request to a GraphQL Server. In the body of the request we send a GraphQL query or mutation as well as some variables and we expect to get some JSON back.
+
+A GraphQL client is therefor a library that can send HTTP requests, that also help the developer to compose these queries. This includes the ability to insert variables into queries.
+
+GraphQL clients can also help to provide a caching mechanism, to save on requests sent to the GraphQL server. Caching can help improve the feel and responsiveness of the application, since the query does not need to go to the server most of the time.
+
+Some clients act exactly like `fetch` while others provide React-specific components that help to send queries.
 
 ### In an Apollo-based React Component, demonstrate how to perform GraphQL Queries
 
 There are two primary ways of executing queries using apollo client. One is using the `Query` component that is rendered within the `render` method of the component. The other is calling the `query` method on the `client` directory. The latter method resembles a more _normal_ `fetch`-based approach.
-
-```js
-
-const GET_BOOKS = gql`{
-    books {
-      id
-      title
-      authors {
-        id
-        name
-      }
-    }
-}`;
-
-...
-
-render() {
-        return <>
-            <h2>Books</h2>
-            <Query query={GET_BOOKS}>
-                {({ loading, error, data }) => {
-                    if (error)
-                        return <p>An error occured: {error}</p>
-                    if (loading || !data)
-                        return <p>Loading...</p>
-
-                    return <table>
-                        <thead>
-                            <tr>
-                                <th>ID</th>
-                                <th>Title</th>
-                                <th>Authors</th>
-                                <th>Update</th>
-                                <th>Delete</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {data.books.map(book =>
-                                <tr key={book.id}>
-                                    <td>{book.id}</td>
-                                    <td>{book.title}</td>
-                                    <td>
-                                        <ul>
-                                            {book.authors.map(author =>
-                                                <li key={author.id}>{author.name}</li>
-                                            )}
-                                        </ul>
-                                    </td>
-                                    <td><button>Update</button></td>
-                                    <td><button onClick={() => this.delete(book.id)}>Delete</button></td>
-                                </tr>
-                            )}
-                        </tbody>
-                    </table>
-                }}
-            </Query>
-            </>
-    }
-```
 
 [BookCrud_Legacy.js](https://github.com/Thomas-Rosenkrans-Vestergaard/javascript-exam-questions/tree/master/graphql-frontend/src/BookCrud_Lagacy.js)
 
@@ -207,191 +162,6 @@ Above it can be seen that we provide the `Query` component with a function. This
 
 Here is an example using `client.query` instead, from 
 [BookCrud.js](https://github.com/Thomas-Rosenkrans-Vestergaard/javascript-exam-questions/tree/master/graphql-frontend/src/BookCrud.js).
-
-```js
-
-import React, { Component } from "react";
-import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
-import "react-tabs/style/react-tabs.css";
-import { Query } from "react-apollo";
-import gql from 'graphql-tag';
-import Popup from "reactjs-popup";
-
-const GET_BOOKS = gql`
-query($pageSize: Int!, $offset: Int!) {
-    books(n: $pageSize, start: $offset) {
-        id
-        title
-        authors {
-            id
-            name
-        }
-    }
-    countBooks
-    genres {
-        id
-        name
-    }
-}`;
-
-const SEARCH_BOOKS = gql`
-query($term: String!) {
-    searchBooks(term: $term) {
-        id
-        title
-        authors {
-            id
-            name
-        }
-    }
-}
-`
-
-const DELETE_BOOK = gql`
-    mutation($id: ID!) {
-        deleteBook(id: $id) {
-            id
-            title
-        }
-    }
-`;
-
-const CREATE_BOOK = gql`
-    mutation($input: BookInput!) {
-        createBook(input: $input) {
-            id
-            title
-            authors {
-                id
-                name
-              }
-        }
-    }
-`;
-
-export default class BookCrud extends Component {
-
-    state = {
-        genres: [],
-        books: [],
-        currentPage: 1,
-        pageSize: 20,
-        totalNumberOfResults: -1,
-        searching: false,
-        searchTerm: ""
-    }
-
-    async componentDidMount() {
-        this.page(1);
-    }
-
-    delete = (id) => {
-        const mutation = DELETE_BOOK;
-
-        this.props.client.mutate({ mutation, variables: { id } }).then(response => {
-            this.setState({ deleted: response.data.deleteBook });
-        });
-    }
-
-    searchChange = (e) => {
-        this.setState({ searchTerm: e.target.value })
-    }
-
-    updateSearch = async () => {
-
-        if (this.state.searchTerm.length < 1) {
-            this.setState({ searching: false })
-            this.page(1)
-        } else {
-            const { data } = await this.props.client.query({ query: SEARCH_BOOKS, variables: { term: this.state.searchTerm } });
-            this.setState({
-                currentPage: 1,
-                books: data.searchBooks,
-                totalNumberOfResults: data.searchBooks.length,
-                searching: true
-            })
-        }
-    }
-
-    render() {
-        return (
-            <div>
-                <h2>Books</h2>
-                <div className="filter">
-                    <input type="search" name="search" onChange={this.searchChange} placeholder="search" />
-                    <input type="submit" value="update" onClick={this.updateSearch} />
-                </div>
-                <table>
-                    <thead>
-                        <tr>
-                            <th>ID</th>
-                            <th>Title</th>
-                            <th>Authors</th>
-                            <th>Update</th>
-                            <th>Delete</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {this.state.books.map(book =>
-                            <tr key={book.id}>
-                                <td>{book.id}</td>
-                                <td>{book.title}</td>
-                                <td>
-                                    <ul>
-                                        {book.authors.map(author =>
-                                            <li key={author.id}>{author.name}</li>
-                                        )}
-                                    </ul>
-                                </td>
-                                <td><button>Update</button></td>
-                                <td><button onClick={() => this.delete(book.id)}>Delete</button></td>
-                            </tr>
-                        )}
-                    </tbody>
-                </table>
-                <div>
-                    {this.createPagination()}
-                </div>
-            </div>
-        )
-    }
-
-    createPagination() {
-
-        if (this.state.searching)
-            return null;
-
-        const links = [];
-
-        for (let i = 1; i <= Math.max(Math.floor(this.state.totalNumberOfResults / this.state.pageSize), 1); i++) {
-            links.push(<a href="#" onClick={() => this.page(i)}>{i}</a>)
-        }
-
-        return (<ul className="pagination">
-            {links.map((link, i) => <li key={i}>{link}</li>)}
-        </ul>)
-    }
-
-    async page(page) {
-        const { client } = this.props
-        const { data } = await client.query({
-            query: GET_BOOKS,
-            variables: {
-                pageSize: this.state.pageSize,
-                offset: (page - 1) * this.state.pageSize
-            }
-        });
-
-        this.setState({
-            genres: data.genres,
-            currentPage: page,
-            books: data.books,
-            totalNumberOfResults: data.countBooks
-        })
-    }
-}
-
-```
 
 If we used the `Query` component here, it would update, and retrieve the results any time the state was updated. This is not what we want, since our state also contains other information, that should be able to change, without the query refiring.
 
