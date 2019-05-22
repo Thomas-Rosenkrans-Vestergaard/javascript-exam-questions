@@ -201,12 +201,12 @@ render() {
     }
 ```
 
-[BookCrud_Legacy.js](./graphql-backend/src/BookCrud_Lagacy.js)
+[BookCrud_Legacy.js](https://github.com/Thomas-Rosenkrans-Vestergaard/javascript-exam-questions/tree/master/graphql-frontend/src/BookCrud_Lagacy.js)
 
 Above it can be seen that we provide the `Query` component with a function. This function is responsible for rendering the results of the query. This approach can cause problems, especially when the query is dependent on the state of the component.
 
 Here is an example using `client.query` instead, from 
-[BookCrud.js](./graphql-backend/src/BookCrud.js).
+[BookCrud.js](https://github.com/Thomas-Rosenkrans-Vestergaard/javascript-exam-questions/tree/master/graphql-frontend/src/BookCrud.js).
 
 ```js
 
