@@ -120,29 +120,29 @@ export default class BookCrud extends Component {
     render() {
         return (
             <div>
-                <h2>Books</h2>
+                <h1>Books</h1>
                 <Modal show={!!this.state.modal} onClose={this.hideModal}>
                     {this.state.modal}
                 </Modal>
                 <div className="filter" style={{ overflow: "auto" }}>
-                    <input type="search" style={{ float: "left" }} name="search" onChange={this.searchChange} placeholder="search" />
-                    <input type="submit" style={{ float: "left", marginLeft: '20px' }} value="update" onClick={this.updateSearch} />
+                    <input type="search" style={{ float: "left" }} name="search" onChange={this.searchChange} placeholder="Search title" />
+                    <input type="submit" style={{ float: "left", marginLeft: '20px' }} value="Search" onClick={this.updateSearch} />
                     <button style={{ float: 'left', marginLeft: '20px' }} onClick={this.showCreateForm}>Create book</button>
                 </div>
                 <table>
                     <thead>
                         <tr>
-                            <th>ID</th>
+                            <th className="small">ID</th>
                             <th>Title</th>
                             <th>Authors</th>
-                            <th>Update</th>
-                            <th>Delete</th>
+                            <th className="small">Update</th>
+                            <th className="small">Delete</th>
                         </tr>
                     </thead>
                     <tbody>
                         {this.state.books.map(book =>
                             <tr key={book.id}>
-                                <td>{book.id}</td>
+                                <td className="small">{book.id}</td>
                                 <td>{book.title}</td>
                                 <td>
                                     <ul>
@@ -151,8 +151,8 @@ export default class BookCrud extends Component {
                                         )}
                                     </ul>
                                 </td>
-                                <td><button>Update</button></td>
-                                <td><button onClick={() => this.delete(book.id)}>Delete</button></td>
+                                <td className="small"><button>Update</button></td>
+                                <td className="small"><button onClick={() => this.delete(book.id)}>Delete</button></td>
                             </tr>
                         )}
                     </tbody>
