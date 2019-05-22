@@ -1,41 +1,94 @@
 const fs = require('fs');
 
+
+const initialGenres = [
+    {
+        id: 1,
+        name: "Drama"
+    },
+    {
+        id: 2,
+        name: "Crime"
+    },
+    {
+        id: 3,
+        name: "Fantasy"
+    },
+    {
+        id: 4,
+        name: "Science Fiction"
+    },
+    {
+        id: 5,
+        name: "Western"
+    },
+    {
+        id: 6,
+        name: "Romance"
+    },
+    {
+        id: 7,
+        name: "Thriller"
+    },
+    {
+        id: 8,
+        name: "Mystery"
+    },
+    {
+        id: 9,
+        name: "Horror"
+    },
+    {
+        id: 10,
+        name: "Children"
+    }
+];
+
 module.exports = function () {
 
-    const genres = [
-        { id: 1, name: "Drama" },
-        { id: 2, name: "Crime" },
-        { id: 3, name: "Fantasy" },
-        { id: 4, name: "Science Fiction" },
-        { id: 5, name: "Western" },
-        { id: 6, name: "Romance" },
-        { id: 7, name: "Thriller" },
-        { id: 8, name: "Mystery" },
-        { id: 9, name: "Horror" },
-        { id: 10, name: "Children" }
-    ];
+
+    const genres = initialGenres;
     const books = [];
-    const authors = [];
+    const fileContents = JSON.parse(fs.readFileSync('books.json'));
 
-    const contents = JSON.parse(fs.readFileSync('books.json'));
-
-    contents.forEach((content, i) => {
-        const author = { id: i, name: content.authors[0].name };
-        authors.push(author);
+    fileContents.forEach((content, i) => {
         const book = {
-            id: i, 
-            title: content.title, 
-            type: rnd(0, 2) == 0 ? "PAPER_BOOK" : "ELECTRONIC_BOOK", 
-            authors: [author], 
-            genre: [genres[rnd(0, genres.length)]]
+            id: i,
+            title: content.title,
+            type: "PAPER_BOOK",
+            authors: [{
+                name: content.authors[0].name
+            }],
+            genres: [
+                initialGenres[getRandomInt(0, initialGenres.length - 1)]
+            ]
         }
 
         books.push(book)
     })
 
-    return { genres, books, authors };
+    return {
+        genres,
+        books
+    };
 }
 
-function rnd(min, max) {
-    var random = Math.floor(Math.random() * (+max - +min)) + +min;
+/**
+ * Returns a random number between min (inclusive) and max (exclusive)
+ */
+function getRandomArbitrary(min, max) {
+    return Math.random() * (max - min) + min;
+}
+
+/**
+ * Returns a random integer between min (inclusive) and max (inclusive).
+ * The value is no lower than min (or the next integer greater than min
+ * if min isn't an integer) and no greater than max (or the next integer
+ * lower than max if max isn't an integer).
+ * Using Math.round() will give you a non-uniform distribution!
+ */
+function getRandomInt(min, max) {
+    min = Math.ceil(min);
+    max = Math.floor(max);
+    return Math.floor(Math.random() * (max - min + 1)) + min;
 }
