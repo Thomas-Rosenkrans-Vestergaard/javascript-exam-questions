@@ -54,3 +54,31 @@ tr {
 .pagination li a {
   text-decoration: none;
 }
+
+form {
+  padding: 20px;
+}
+
+input, label, select {
+  display: block;
+}
+
+input, select {
+  padding: 10px;
+  margin-bottom: 10px;
+}
+
+button, input[type="submit"] {
+  padding: 10px;
+  background: red;
+  color: white;
+  border: none;
+  border-radius: 3px;
+  cursor: pointer;
+}
+
+label {
+  font-weight: bold;
+  padding: 5px 0;
+  text-align: left;
+}

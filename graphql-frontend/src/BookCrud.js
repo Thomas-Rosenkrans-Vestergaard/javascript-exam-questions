@@ -4,6 +4,8 @@ import "react-tabs/style/react-tabs.css";
 import { Query } from "react-apollo";
 import gql from 'graphql-tag';
 import Popup from "reactjs-popup";
+import Modal from "./modal/Modal";
+import BookForm from "./BookForm";
 
 const GET_BOOKS = gql`
 query($pageSize: Int!, $offset: Int!) {
@@ -66,7 +68,8 @@ export default class BookCrud extends Component {
         pageSize: 20,
         totalNumberOfResults: -1,
         searching: false,
-        searchTerm: ""
+        searchTerm: "",
+        modal: null
     }
 
     async componentDidMount() {
@@ -101,13 +104,30 @@ export default class BookCrud extends Component {
         }
     }
 
+    showCreateForm = () => {
+
+        const onComplete = book => {
+
+        }
+
+        this.setState({ modal: <BookForm genres={this.state.genres || []} onComplete={onComplete} /> })
+    }
+
+    hideModal = () => {
+        this.setState({ modal: null })
+    }
+
     render() {
         return (
             <div>
                 <h2>Books</h2>
-                <div className="filter">
-                    <input type="search" name="search" onChange={this.searchChange} placeholder="search" />
-                    <input type="submit" value="update" onClick={this.updateSearch} />
+                <Modal show={!!this.state.modal} onClose={this.hideModal}>
+                    {this.state.modal}
+                </Modal>
+                <div className="filter" style={{ overflow: "auto" }}>
+                    <input type="search" style={{ float: "left" }} name="search" onChange={this.searchChange} placeholder="search" />
+                    <input type="submit" style={{ float: "left", marginLeft: '20px' }} value="update" onClick={this.updateSearch} />
+                    <button style={{ float: 'left', marginLeft: '20px' }} onClick={this.showCreateForm}>Create book</button>
                 </div>
                 <table>
                     <thead>
@@ -140,7 +160,7 @@ export default class BookCrud extends Component {
                 <div>
                     {this.createPagination()}
                 </div>
-            </div>
+            </div >
         )
     }
 

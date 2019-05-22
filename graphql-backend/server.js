@@ -12,7 +12,7 @@ type Author {
 }
 
 input AuthorInput {
-    id: ID!
+    name: String!
 }
 
 enum BookType {
@@ -23,10 +23,6 @@ enum BookType {
 type Genre {
     id: ID!
     name: String!
-}
-
-input GenreInput {
-    id: ID!
 }
 
 type Book {
@@ -40,7 +36,7 @@ type Book {
 input BookInput {
     title: String!
     type: BookType!
-    genres: [GenreInput]!
+    genres: [ID!]!
     authors: [AuthorInput]!
 }
 
