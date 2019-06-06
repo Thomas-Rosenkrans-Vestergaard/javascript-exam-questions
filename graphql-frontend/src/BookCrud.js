@@ -12,7 +12,11 @@ query($pageSize: Int!, $offset: Int!) {
     books(n: $pageSize, start: $offset) {
         id
         title
+        type
         authors {
+            name
+        }
+        genres {
             id
             name
         }
@@ -29,7 +33,11 @@ query($term: String!) {
     searchBooks(term: $term) {
         id
         title
+        type
         authors {
+            name
+        }
+        genres {
             id
             name
         }
@@ -52,12 +60,23 @@ const CREATE_BOOK = gql`
             id
             title
             authors {
-                id
                 name
               }
         }
     }
 `;
+
+const UPDATE_BOOK = gql`
+mutation($id: ID!, $input: BookInput!) {
+    updateBook(id: $id, input: $input) {
+        id
+        title
+        authors {
+            name
+          }
+    }
+}
+`
 
 export default class BookCrud extends Component {
 
@@ -76,12 +95,54 @@ export default class BookCrud extends Component {
         this.page(1);
     }
 
-    delete = (id) => {
-        const mutation = DELETE_BOOK;
+    showCreateForm = async () => {
 
-        this.props.client.mutate({ mutation, variables: { id } }).then(response => {
-            this.setState({ deleted: response.data.deleteBook });
-        });
+        const onComplete = async input => {
+
+            const { data, error } = await this.props.client.mutate({
+                mutation: CREATE_BOOK,
+                variables: { input }
+            })
+
+            if (error) {
+                alert("An error occurred.");
+                return;
+            }
+
+            await this.props.client.resetStore();
+            this.page(this.state.currentPage);
+            this.hideModal();
+        }
+
+        this.setState({ modal: <BookForm genres={this.state.genres || []} onComplete={onComplete} /> })
+    }
+
+    delete = async (book) => {
+        await this.props.client.mutate({ mutation: DELETE_BOOK, variables: { id: book.id } })
+        await this.props.client.resetStore();
+        this.page();
+    }
+
+    update = (book) => {
+        const onComplete = async input => {
+
+            const { data, error } = await this.props.client.mutate({
+                mutation: UPDATE_BOOK,
+                variables: { id: book.id, input }
+            })
+
+            if (error) {
+                alert("An error occurred.");
+                return;
+            }
+
+            await this.props.client.resetStore();
+            this.page(this.state.currentPage);
+            this.hideModal();
+        }
+
+        const copy = Object.assign({}, book)
+        this.setState({ modal: <BookForm initial={copy} genres={this.state.genres || []} onComplete={onComplete} /> })
     }
 
     searchChange = (e) => {
@@ -104,15 +165,6 @@ export default class BookCrud extends Component {
         }
     }
 
-    showCreateForm = () => {
-
-        const onComplete = book => {
-
-        }
-
-        this.setState({ modal: <BookForm genres={this.state.genres || []} onComplete={onComplete} /> })
-    }
-
     hideModal = () => {
         this.setState({ modal: null })
     }
@@ -120,39 +172,39 @@ export default class BookCrud extends Component {
     render() {
         return (
             <div>
-                <h2>Books</h2>
+                <h1>Books</h1>
                 <Modal show={!!this.state.modal} onClose={this.hideModal}>
                     {this.state.modal}
                 </Modal>
                 <div className="filter" style={{ overflow: "auto" }}>
-                    <input type="search" style={{ float: "left" }} name="search" onChange={this.searchChange} placeholder="search" />
-                    <input type="submit" style={{ float: "left", marginLeft: '20px' }} value="update" onClick={this.updateSearch} />
+                    <input type="search" style={{ float: "left" }} name="search" onChange={this.searchChange} placeholder="Search title" />
+                    <input type="submit" style={{ float: "left", marginLeft: '20px' }} value="Search" onClick={this.updateSearch} />
                     <button style={{ float: 'left', marginLeft: '20px' }} onClick={this.showCreateForm}>Create book</button>
                 </div>
                 <table>
                     <thead>
                         <tr>
-                            <th>ID</th>
+                            <th className="small">ID</th>
                             <th>Title</th>
                             <th>Authors</th>
-                            <th>Update</th>
-                            <th>Delete</th>
+                            <th className="small">Update</th>
+                            <th className="small">Delete</th>
                         </tr>
                     </thead>
                     <tbody>
                         {this.state.books.map(book =>
                             <tr key={book.id}>
-                                <td>{book.id}</td>
+                                <td className="small">{book.id}</td>
                                 <td>{book.title}</td>
                                 <td>
                                     <ul>
-                                        {book.authors.map(author =>
-                                            <li key={author.id}>{author.name}</li>
+                                        {book.authors.map((author, i) =>
+                                            <li key={i}>{author.name}</li>
                                         )}
                                     </ul>
                                 </td>
-                                <td><button>Update</button></td>
-                                <td><button onClick={() => this.delete(book.id)}>Delete</button></td>
+                                <td className="small"><button onClick={() => this.update(book)}>Update</button></td>
+                                <td className="small"><button onClick={() => this.delete(book)}>Delete</button></td>
                             </tr>
                         )}
                     </tbody>
@@ -171,7 +223,7 @@ export default class BookCrud extends Component {
 
         const links = [];
 
-        for (let i = 1; i <= Math.max(Math.floor(this.state.totalNumberOfResults / this.state.pageSize), 1); i++) {
+        for (let i = 1; i <= Math.max(Math.ceil(this.state.totalNumberOfResults / this.state.pageSize), 1); i++) {
             links.push(<a href="#" onClick={() => this.page(i)}>{i}</a>)
         }
 
@@ -181,6 +233,10 @@ export default class BookCrud extends Component {
     }
 
     async page(page) {
+
+        if (!page)
+            page = this.state.currentPage;
+
         const { client } = this.props
         const { data } = await client.query({
             query: GET_BOOKS,

@@ -167,3 +167,17 @@ If we used the `Query` component here, it would update, and retrieve the results
 
 ### Demonstrate and highlight important parts of a “complete” GraphQL-app using Express and MongoDB on the server side, and Apollo-Client on the client.
 
+Backend:
+
+- [Mongoose schema declarations](https://github.com/Thomas-Rosenkrans-Vestergaard/js-mini/tree/master/src/data)
+- [Logic layer](https://github.com/Thomas-Rosenkrans-Vestergaard/js-mini/tree/master/src/controllers/facades)
+- [GraphQL Schema Declaration](https://github.com/Thomas-Rosenkrans-Vestergaard/js-mini/blob/master/src/controllers/graphql/schema.ts)
+- [GraphQL -> TypeScript codegen](https://github.com/Thomas-Rosenkrans-Vestergaard/js-mini/blob/master/codegen.yml)
+- [GraphQL Resolvers](https://github.com/Thomas-Rosenkrans-Vestergaard/js-mini/tree/master/src/controllers/graphql/resolvers)
+- [GraphQL Express Router](https://github.com/Thomas-Rosenkrans-Vestergaard/js-mini/blob/master/src/controllers/graphql/router.ts)
+
+Frontend:
+
+- [Apollo Client Connection](https://github.com/Thomas-Rosenkrans-Vestergaard/js-mini-app/blob/master/App.js#L40)
+- [Apollo Client Mutation Example](https://github.com/Thomas-Rosenkrans-Vestergaard/js-mini-app/blob/master/App.js#L66)
+- [Apollo Client Query Example](https://github.com/Thomas-Rosenkrans-Vestergaard/js-mini-app/blob/master/Posts.js)

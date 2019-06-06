@@ -15,9 +15,6 @@ const client = new ApolloClient({
 function App() {
   return (
     <div id="contaniner">
-      <header>
-        <h1>Apollo React</h1>
-      </header>
       <main>
         <ApolloProvider client={client}>
               <BookCrud client={client}/>

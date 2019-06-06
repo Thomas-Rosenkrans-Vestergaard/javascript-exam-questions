@@ -4,13 +4,22 @@
   font-family: Arial, Helvetica, sans-serif;
 }
 
+a {
+  color: rgb(109, 109, 255);
+}
+
 #contaniner {
   padding: 20px;
   max-width: 1024px;
   margin: 0 auto;
 }
 
-h1, h2, h3, h4, h5, h6 {
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
   margin-bottom: 15px;
 }
 
@@ -22,9 +31,17 @@ table {
   table-layout: fixed;
   white-space: nowrap;
   border-collapse: collapse;
+  width: 100%;
 }
 
-th, td {
+th.small,
+td.small {
+  width: 75px;
+  text-align: center;
+}
+
+th,
+td {
   padding: 10px;
   white-space: nowrap;
   overflow: hidden;
@@ -59,26 +76,62 @@ form {
   padding: 20px;
 }
 
-input, label, select {
+input,
+label,
+select {
   display: block;
 }
 
-input, select {
+input,
+select,
+button {
+  height: 40px;
+  box-sizing: border-box;
+}
+
+input,
+select {
   padding: 10px;
   margin-bottom: 10px;
 }
 
-button, input[type="submit"] {
+button,
+input[type="submit"] {
   padding: 10px;
   background: red;
   color: white;
   border: none;
   border-radius: 3px;
   cursor: pointer;
+  outline: none;
+  margin-bottom: 10px;
 }
 
 label {
   font-weight: bold;
   padding: 5px 0;
   text-align: left;
+}
+
+.filter {
+  padding: 20px;
+  background: #aaa;
+  margin-bottom: 20px;
+}
+
+.Modal form {
+  min-width: 750px;
+}
+
+.Modal form input,
+Modal form {
+  width: 100%;
+}
+
+.css-1pcexqc-container {
+  margin-bottom: 10px;
+}
+
+form button {
+  width: 100%;
 }
