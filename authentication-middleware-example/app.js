@@ -1,15 +1,14 @@
 var createError = require('http-errors');
-var express = require('express');
-var path = require('path');
-var cookieParser = require('cookie-parser');
-var logger = require('morgan');
-var cookieSession = require('cookie-session')
+const express = require('express');
+const path = require('path');
+const cookieParser = require('cookie-parser');
+const logger = require('morgan');
+const cookieSession = require('cookie-session')
 
-var indexRouter = require('./routes/index');
-var usersRouter = require('./routes/users');
-var apiRouter   = require('./routes/api')
+const indexRouter = require('./routes/index');
+const apiRouter   = require('./routes/api')
 
-var app = express();
+const app = express();
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -27,30 +26,8 @@ app.use(cookieSession({
   maxAge: 30 * 60 * 1000 // 30 minutes
 }))
 
-// Auth middleware
-app.use(function (req, res, next) {
-  if(req.method == 'POST'){
-    const userName = req.body.userName
-    if(userName){
-      req.session.userName = userName;
-      res.redirect('/')
-    }
-  }
-
-  next()
-});
-
-app.use(function(req, res, next){
-  if(req.method == "GET" && !req.url.includes("login") && !req.url.includes("api") && !req.session.userName){
-    req.url = "/login"
-  }
-
-  next()
-})
-
-app.use('/', indexRouter);
-app.use('/users', usersRouter);
 app.use('/api', apiRouter)
+app.use('/', indexRouter);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

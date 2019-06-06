@@ -5,4 +5,5 @@ html
     link(rel='stylesheet', href='/stylesheets/style.css')
   body
     block content
-    p Logget ind som #{userName}
+    if 'userName' in this
+      p Logget ind som #{userName}
