@@ -256,13 +256,44 @@ The session middleware has multiple strategies for session storage. The default 
 
 Other stragegies include storing the information in a `MongoDB` database: [connect-mongodb-session](https://www.npmjs.com/package/connect-mongodb-session).
 
+The legal considerations from implementing sessions mostly come from the recent EU GDPR regulations. 
+
+https://webmasters.stackexchange.com/a/115036
+http://ec.europa.eu/ipg/basics/legal/cookies/index_en.htm
+
+The eu further state:
+
+>EUROPA websites must follow the Commission's guidelines on privacy and data protection and inform users that cookies are not being used to gather information unnecessarily.
+
+>The ePrivacy directive – more specifically Article 5(3) – requires prior informed consent for storage or for access to information stored on a user's terminal equipment. In other words, you must ask users if they agree to most cookies and similar technologies (e.g. web beacons, Flash cookies, etc.) before the site starts to use them.
+
+>For consent to be valid, it must be informed, specific, freely given and must constitute a real indication of the individual's wishes.
+
+>However, some cookies are exempt from this requirement. Consent is not required if the cookie is:
+
+>* used for the sole purpose of carrying out the transmission of a communication, and
+strictly necessary in order for the provider of an information society service explicitly required by the user to provide that service.
+>* Cookies clearly exempt from consent according to the EU advisory body on data protection- WP29pdf include:
+
+>* user‑input cookies (session-id) such as first‑party cookies to keep track of the user's input when filling online forms, shopping carts, etc., for the duration of a session or persistent cookies limited to a few hours in some cases
+authentication cookies, to identify the user once he has logged in, for the duration of a session
+>* user‑centric security cookies, used to detect authentication abuses, for a limited persistent duration
+multimedia content player cookies, used to store technical data to play back video or audio content, for the duration of a session
+load‑balancing cookies, for the duration of session
+user‑interface customisation cookies such as language or font preferences, for the duration of a session (or slightly longer)
+third‑party social plug‑in content‑sharing cookies, for logged‑in members of a social network.
+
 ### Compare the express strategy toward (server side) templating with the one you used with Java during the second semester.
 
-Templating is used to compose/render dynamic HTML pages. Templates provide a better syntax for rendering, than most programming languages have natively. Most templating languages provide support for function calls, interation and printing (output). There are templating libraries available for most, if not all, programming languages. Some templating libraries, like [mustache](https://mustache.github.io/) are available for multiple languages.
+Templating is used to compose/render dynamic HTML pages. Templates provide a better syntax for rendering, than most programming languages have natively. Most templating languages provide support for function calls, iteration and printing (output). There are templating libraries available for most, if not all, programming languages. Some templating libraries, like [mustache](https://mustache.github.io/) are available for multiple languages.
 
 During the second semester we used JSP to render webpages. There are some differences between our usage of `JSP`, and template rendering using express.
 
-* `JSP` is the default template renderer for Tomcat. Tomcat could automatically locate and render `JSP` files when accessed using `Tomcat`. Express has no default template engine, and the template is therefor rendered explicitly. Using middleware we could similarly automatically locate and render a template based on the url path.
+* `JSP` is the default template renderer for Tomcat. Tomcat could automatically locate and render `JSP` files when accessed using `Tomcat`. Express has no default template engine, and the template is therefor rendered explicitly by registering a template engine. Using middleware we could similarly automatically locate and render a template based on the url path.
+
+Outher than the above difference, they share many similarities:
+* compilation to native code
+* support for function calls, iteration and printing
 
 ### Demonstrate a simple Server Side Rendering example using a technology of your own choice (pug, EJS, ..)
 
@@ -400,17 +431,17 @@ Instead we could _mock_ the dependant units (`fetcher`), so that we can ensure p
 
 // Create our mock
 function createMockFetch(text) {
-    return () => {text}
+    return () => text
 }
 
 const testInstance = new WebScraper(createMockFetch('Hello World')) // provide our mock, instead of the real fetch function
-const result = testInstance.scrape('')
+const result = testInstance.scrape()
 expect(result).to.be.eql('Hello')
 ```
 
-When mocking, it is important that the mock object or function, behaves just like the target object or function. In the above example i have only mocked the needed functionality (the `text` property).
+When mocking, it is important that the mock object or function, behaves just like the target object or function. In the above example i have only mocked the needed functionality.
 
-The same concept applies to the mocking a database connection. An example of this can be found [here](rest-api-test-example/test/MemoryBook.js), where `MemoryBook` is a mock of [`JsonBook`](rest-api-test-example/src/JsonBook.js).
+The same concept applies to the mocking a database connection. An example of this can be found [here](rest-api-test-example/test/MemoryBook.js), where `MemoryBook` is a mock of [`JsonBook`](rest-api-test-example/src/JsonBook.js). The `JsonBook` class uses a file instead of a normal, database connection, but we still achieve some of the same advantages. 
 
 ### Explain, preferably using an example, how you have deployed your node/Express applications, and which of the Express Production best practices you have followed.
 
@@ -481,7 +512,7 @@ The term NoSQL encompasses a large number of different database approaches. The 
 
 ### Explain reasons to add a layer like Mongoose, on top on of a schema-less database like MongoDB
 
-Even though a schema-less database could have some advantages, most projects benifit from the data validation and integrity that comes with having a schema. As a developer, you still retain the benifits of a schema-less database, since mongoose can be applied only to the documents of your choice.
+Even though a schema-less database could have some advantages, most projects benifit from the data validation and integrity that comes with having a schema. As a developer, you still retain the benifits of a schema-less database, since mongoose schema valition can be applied to a subset of all your Models.
 
 Mongoose provides all the simple datatypes defined in ECMAScript, along with validation of sub-documents. Mongoose also provides static methods for querying the models.
 
@@ -549,16 +580,7 @@ const EXPIRES = 60 * SECONDS;
 export const UserPositionSchema = new Schema({
     user: {type: Schema.Types.ObjectId, ref: "User", required: true},
     created: {type: Date, expires: EXPIRES, default: Date.now},
-    position: {
-        type: {
-            type: String,
-            enum: ["Point"],
-            default: "Point",
-        },
-        coordinates: {
-            type: [Schema.Types.Number]
-        }
-    }
+    position: ...
 });
 ```
 
@@ -631,7 +653,7 @@ The reasons for using normalization when using relational databases, are:
 - Use can always select enties from any single table.
 
 There are also some drawbacks to normalization.
-- Since data is not duplicated, table joins are required. This makes queries more complicated, and thus read times are slower.
+- Since data is not duplicated, table joins are required when retrieving data. This makes queries more complicated, and thus read times are slower.
 - Since joins are required, indexing does not work as efficiently. Again, this makes read times slower because the joins don't typically work well with indexing.
 
 Generally, you want to use normalization and a relational database when you require data integrity, or when creating a write-intensive application. When creating a read-intensive application, a NoSQL solution weithout normalization may be better, since many `JOIN`s can be eliminated. Alternatively you can use both a relational and non-relational database, to implement specific features within your application. 
@@ -654,7 +676,7 @@ Author
 where there is a many to many relationship between Book and Author.
 ```
 
-When using normalization, we have to perform a `JOIN` to retrieve the relationship between `Book` and `Author`. This incurs a performance penalty. We could of course embed one entity into the other, but this would also come with some serious drawbacks. We can no longer effeciently perform search on the embedded document, since we would first need to iterate through all the parent documents.
+When using normalization, we have to perform a `JOIN` to retrieve the relationship between `Book` and `Author`. This incurs a performance penalty. We could of course embed one entity into the other, but this would also come with some serious drawbacks. We can no longer effeciently perform search on the embedded document `Author`, since we would first need to iterate through all the parent documents (`Book`).
 
 We would also have lots of duplicate data. If we embedded the `Author` entity inside the `Book` entity, we many have multiple `Author` records representing the same author. If we wanted to update that author, we would need to update the information in multiple `Book` documents.
 
