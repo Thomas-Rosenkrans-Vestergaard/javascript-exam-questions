@@ -1,6 +1,25 @@
 const turf = require('@turf/turf');
+const CityModel = require('./CityModel')
 
-class Facade {
+module.exports = class Facade {
+
+    static async findNearby(lng, lat, maxDistance) {
+        return CityModel.find({
+            position: {
+                $near: {
+                    $geometry: {
+                        type: "Point",
+                        coordinates: [lng, lat]
+                    },
+                    $maxDistance: maxDistance * 1000
+                }
+            }
+        }).exec()
+    }
+
+    static async createCity(name, country, point) {
+        return CityModel.create({name, country, position: point}).exec()
+    }
 
     /**
      * Returns the distance between the provided positions.
@@ -8,7 +27,7 @@ class Facade {
      */
     static distance(positions) {
         if (positions.length < 2)
-            return 0;   
+            return 0;
 
         let result = 0;
         for (let i = 1; i < positions.length; i++)

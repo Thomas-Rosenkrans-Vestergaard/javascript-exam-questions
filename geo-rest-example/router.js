@@ -1,25 +1,15 @@
 const express = require('express');
 const router = express.Router();
+const Facade = require('./facade')
 
-router.post('/distance', (req, res, next) => {
+router.get('/cities/near', async (req, res) => {
+    const {lng, lat, maxDistance} = req.query
+    const nearby = await Facade.findNearby(Number(lng), Number(lat), Number(maxDistance))
+    res.json(nearby)
+});
+
+router.post('/cities', (req, res) => {
 
 });
 
-router.post('/along', (req, res, next) => {
-
-});
-
-router.post('/squareOf', (req, res, next) => {
-
-});
-
-router.post('/rectangleOf', (req, res, next) => {
-
-});
-
-
-router.post('/centerOf', (req, res, next) => {
-
-});
-
-export default router;
+module.exports = router;
