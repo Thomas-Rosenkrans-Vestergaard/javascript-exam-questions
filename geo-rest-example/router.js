@@ -8,8 +8,13 @@ router.get('/cities/near', async (req, res) => {
     res.json(nearby)
 });
 
-router.post('/cities', (req, res) => {
+router.post('/cities/within', async (req, res) => {
+    const within = await Facade.findWithin(req.body)
+    res.json(within)
+});
 
+router.post('/cities', async (req, res) => {
+    res.json(await Facade.createCity(req.body))
 });
 
 module.exports = router;

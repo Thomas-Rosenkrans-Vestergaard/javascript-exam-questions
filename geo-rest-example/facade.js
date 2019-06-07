@@ -17,8 +17,22 @@ module.exports = class Facade {
         }).exec()
     }
 
+    static async findWithin(polygon) {
+        return CityModel.find({
+            position: {
+                $geoWithin: {
+                    $geometry: polygon
+                }
+            }
+        })
+    }
+
     static async createCity(name, country, point) {
-        return CityModel.create({name, country, position: point}).exec()
+        return CityModel.create({
+            name,
+            country,
+            position: point
+        }).exec()
     }
 
     /**
