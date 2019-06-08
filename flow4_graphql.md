@@ -126,13 +126,17 @@ Here we define three queries: `books`, `authors` and `genres`. We also declare t
 
 ### Provide a number of examples demonstrating creating, updating and deleting with Mutations. You should provide examples both running in a Sandbox/playground and examples executed in an Apollo Client.
 
+- [example](http://localhost:4000/?query=mutation%20%7B%0A%20%20createBook(input%3A%20%7B%0A%20%20%20%20title%3A%20%22Thomas%27%20Book%22%2C%20%0A%20%20%20%20type%3A%20ELECTRONIC_BOOK%2C%20%0A%20%20%20%20genres%3A%20%5B1%2C%202%5D%2C%20%0A%20%20%20%20authors%3A%20%5B%7Bname%3A%20%22Thomas%22%7D%5D%7D%0A%20%20)%20%7B%0A%20%20%20%20id%2C%20%0A%20%20%20%20title%0A%20%20%7D%0A%7D%0A)
+
+![](flow4-images/graphql_playground_mutate_example.PNG)
+
 `client.query`: [BookCrud.js](https://github.com/Thomas-Rosenkrans-Vestergaard/javascript-exam-questions/tree/master/graphql-frontend/src/BookCrud.js).
 
 ### Explain the Concept of a Resolver function, and provide a number of simple example of resolvers you have implemented in a GraphQL Server.
 
-Resolver functions are the functions that are invoked when a query is invoked. There is a one-to-one relationship between GraphQL queries and resolver functions.
+Resolver functions are the functions that execute the operation when a query or mutation is called by a client. There is a one-to-one relationship between GraphQL queries/mutations and resolver functions.
 
-The resolver function accepts the arguments provided by the GraphQL client.
+The resolver function accepts the arguments provided by the GraphQL client. Here are the resolver functions for the above schema. These resolver functions are backend by an array of books, authors and genres.
 
 ```js
 const root = {
@@ -150,11 +154,9 @@ const root = {
 };
 ```
 
-Here are the resolver functions for the above schema.
+### Explain the benefits we get from using a library like Apollo-client, compared to using the plain fetch-API.
 
-### Explain the benefits we get from using a library like Apollo-client, compared to using the plain fetch-API
-
-It's important to note that GraphQL is not a webserver or data exchange protocol. GraphQL defines two languages for exchanging data between a client and server.
+It's important to note that GraphQL is not a webserver or database. GraphQL defines two languages for exchanging data between a client and server: The schema definition language and the query language.
 
 > GraphQL is an open-source data query and manipulation language for APIs, and a runtime for fulfilling queries with existing data.
 
@@ -166,7 +168,7 @@ A GraphQL client is therefor a library that can send HTTP requests, that also he
 
 GraphQL clients can also help to provide a caching mechanism, to save on requests sent to the GraphQL server. Caching can help improve the feel and responsiveness of the application, since the query does not need to go to the server most of the time.
 
-Some clients act exactly like `fetch` while others provide React-specific components that help to send queries.
+Some clients have similar interfaces to `fetch`, while others provide differing interfaces and React-specific components that help to send queries and perform mutations (GraphQL Apollo).
 
 ### In an Apollo-based React Component, demonstrate how to perform GraphQL Queries
 
@@ -174,7 +176,7 @@ There are two primary ways of executing queries using apollo client. One is usin
 
 [BookCrud_Legacy.js](https://github.com/Thomas-Rosenkrans-Vestergaard/javascript-exam-questions/tree/master/graphql-frontend/src/BookCrud_Lagacy.js)
 
-Above it can be seen that we provide the `Query` component with a function. This function is responsible for rendering the results of the query. This approach can cause problems, especially when the query is dependent on the state of the component.
+Above it can be seen that we provide the `Query` component with a function. This function is responsible for rendering the result of the `Query`. This approach can cause problems, especially when the query is dependent on the state of the component.
 
 Here is an example using `client.query` instead, from 
 [BookCrud.js](https://github.com/Thomas-Rosenkrans-Vestergaard/javascript-exam-questions/tree/master/graphql-frontend/src/BookCrud.js).
