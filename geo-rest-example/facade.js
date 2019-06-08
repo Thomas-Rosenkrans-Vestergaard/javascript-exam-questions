@@ -3,6 +3,10 @@ const CityModel = require('./CityModel')
 
 module.exports = class Facade {
 
+    static async all() {
+        return CityModel.find({}).exec();
+    }
+
     static async findNearby(lng, lat, maxDistance) {
         return CityModel.find({
             position: {

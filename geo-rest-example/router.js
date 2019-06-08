@@ -3,8 +3,10 @@ const router = express.Router();
 const Facade = require('./facade')
 
 router.get('/cities/near', async (req, res) => {
-    const {lng, lat, maxDistance} = req.query
-    const nearby = await Facade.findNearby(Number(lng), Number(lat), Number(maxDistance))
+    const {latitude, longitude, maxDistance} = req.query
+    if(!latitude || !longitude || !maxDistance)
+        return res.json(await Facade.all())
+    const nearby = await Facade.findNearby(Number(longitude), Number(latitude), Number(maxDistance))
     res.json(nearby)
 });
 
