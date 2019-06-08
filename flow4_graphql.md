@@ -17,13 +17,13 @@ The main difference between REST and GraphQL is the number of endpoints exposed 
 
 > GraphQL is a specification that describes the behavior of a GraphQL server. It is a set of guidelines on how requests and responses should be handled like supported protocols, format of the data that can be accepted by the server, format of the response returned by the server, etc. The request made by a client to the GraphQL server is called a Query. Another important concept of GraphQL is its transport layer agnostics. It can be used with any available network protocol like TCP, websocket or any other transport layer protocol. It is also neutral to databases, so you can use it with relational or NoSQL databases.
 
-Like REST, GraphQL is  used to create APIs over HTTP. The GraphQL endpoints hide the implementation of the operations and data storage method.
+Like REST, GraphQL is  used to create APIs over HTTP. The GraphQL endpoints hide the implementation of the queries and mutations, and the data storage method.
 
 ![](flow4-images/graphql_server_connected_database.jpg)
 ![](flow4-images/graphql_hybrid_approach.jpg)
 ![](flow4-images/graphql_server_integrating_existing_systems.jpg)
 
-This means that you can change the implementation of the endpoint, and still have the same interface.
+This means that you can change the implementation of queries and mutations, and still have the same interface.
 
 ### What is meant by the terms over- and under-fetching in relation to REST.
 
