@@ -712,13 +712,12 @@ Author
     aliases
 
 where there is a many to many relationship between Book and Author.
-```
 
 When using normalization, we have to perform a `JOIN` to retrieve the relationship between `Book` and `Author`. This incurs a performance penalty. We could of course embed one entity into the other, but this would also come with some serious drawbacks. We can no longer effeciently perform search on the embedded document `Author`, since we would first need to iterate through all the parent documents (`Book`).
 
 We would also have lots of duplicate data. If we embedded the `Author` entity inside the `Book` entity, we many have multiple `Author` records representing the same author. If we wanted to update that author, we would need to update the information in multiple `Book` documents.
 
-The tradeoff between embedding and not embedding is fast read vs fast write.
+A real example can be found [here](https://github.com/Thomas-Rosenkrans-Vestergaard/js-mini/tree/master/src/data), where the position of a `Post` is denormalized and the position of a `User` is normalized, and the positional data has been extracted out into the `UserPosition` collection.
 
 ### Explain, using a relevant example, a full JavaScript backend including relevant test cases to test the REST-API.
 
