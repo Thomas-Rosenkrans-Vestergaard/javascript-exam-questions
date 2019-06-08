@@ -541,6 +541,8 @@ Additionally Mongoose provides custom validation of documents. This works by def
 - https://docs.mongodb.com/manual/indexes/
 - https://www.tutorialspoint.com/mongodb/mongodb_indexing.htm
 
+Indexes can improve the efficiency of read operations.
+
 > Indexes support the efficient execution of queries in MongoDB. Without indexes, MongoDB must perform a collection scan, i.e. scan every document in a collection, to select those documents that match the query statement. If an appropriate index exists for a query, MongoDB can use the index to limit the number of documents it must inspect.
 
 > Fundamentally, indexes in MongoDB are similar to indexes in other database systems. MongoDB defines indexes at the collection level and supports indexes on any field or sub-field of the documents in a MongoDB collection.
