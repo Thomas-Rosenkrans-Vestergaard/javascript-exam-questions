@@ -159,10 +159,41 @@ const SJÆLLAND = `
 }
 `
 
+const BORNHOLM = `
+{
+    "type":"Polygon",
+    "coordinates":[
+       [
+          [
+             14.556884765625002,
+             55.015425940562984
+          ],
+          [
+             15.194091796874998,
+             54.9081985929894
+          ],
+          [
+             15.3094482421875,
+             55.14434917097695
+          ],
+          [
+             14.61181640625,
+             55.37286814115173
+          ],
+          [
+             14.556884765625002,
+             55.015425940562984
+          ]
+       ]
+    ]
+}
+`
+
 const queries = {
     SJÆLLAND,
     FYN,
-    JYLLAND
+    JYLLAND,
+    BORNHOLM
 }
 
 export default class CityWithinPolygon extends Component {
