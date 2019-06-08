@@ -161,7 +161,9 @@ Here the [cross-env](https://www.npmjs.com/package/cross-env) package is used so
 
 ### Explain, using relevant examples, concepts related to testing a REST-API using Node/JavaScript + relevant packages.
 
-Testing a REST API is much easlier in JavaScript than in many other languages like Java. When using languages like Java, web services often need to be deployed to a dedicated server. Using JavaScript we can programmatically start our express server using the `listen` method. We can then use the `node-fetch` to make requests to the REST API.
+Testing a REST API is much easlier in JavaScript than in many other languages like Java. When using languages like Java, web services often need to be deployed to a dedicated server. Using express we can programmatically start our express server using the `listen` method. We can then use the `node-fetch` package to make requests to the REST API.
+
+[rest-api-test-example](./rest-api-test-example)
 
 ### Explain, using relevant examples, the Express concept; middleware.
 
@@ -169,9 +171,8 @@ Testing a REST API is much easlier in JavaScript than in many other languages li
 - https://expressjs.com/en/guide/using-middleware.html
 
 > Middleware functions are functions that have access to the request object (req), the response object (res), and the next middleware function in the application’s request-response cycle. The next middleware function is commonly denoted by a variable named next.
-
+>
 > Middleware functions can perform the following tasks:
-
 > * Execute any code.
 > * Make changes to the request and the response objects.
 > * End the request-response cycle.
