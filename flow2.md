@@ -481,6 +481,33 @@ Many actions can be taken during development, to ease the deployment of the appl
 - Log important information about the usage of the application. This could be stuff like the frequency of the endpoints of the application.
 - Use a process manager to automatically restart the application in the event of a crash.
 
+#### Example
+
+I have deployed a simple application to my Digital Ocean droplet.
+
+https://tvestergaard.com/express-deployment-example/
+
+* I installed `npm`, `node` and `pm2` on my droplet.
+* I `get clone`d the project.
+* I started the application using `pm2 start server.js`.
+* I forwarded the url `/express-deployment-example/` to the express application running on port `3009`.
+
+
+```nginx
+server {
+        server_name tvestergaard.com www.tvestergaard.com;
+
+        location /express-deployment-example/ {
+                proxy_pass http://127.0.0.1:3009/;
+        }
+
+        location / {
+                include proxy_params;
+                proxy_pass http://tomcat/;
+        }
+}
+```
+
 ## NoSQL, MongoDB and Mongoose
 
 ### Explain, generally, what is meant by a NoSQL database.
