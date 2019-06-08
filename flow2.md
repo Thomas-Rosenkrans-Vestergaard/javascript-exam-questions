@@ -662,6 +662,15 @@ Above i used the mongoose schema definition strategy to add the `2dshere` to the
 - https://www.mongodb.com/blog/post/6-rules-of-thumb-for-mongodb-schema-design-part-2
 - https://www.mongodb.com/blog/post/6-rules-of-thumb-for-mongodb-schema-design-part-3
 - https://en.wikipedia.org/wiki/Database_normalization
+- https://keon.io/mongodb-schema-design/
+
+> * Favor embedding unless there is a compelling reason not to
+> * Needing to access an object on its own is a compelling reason not to embed it
+> * Arrays should not grow without bound. If there are more than a couple of hundred documents on the “many” side, don’t embed them; if there are more than a few thousand documents on the “many” side, don’t use an array of ObjectID references. High-cardinality arrays are a compelling reason not to embed.
+> * Don’t be afraid of application-level joins: if you index correctly and use the projection specifier then application-level joins are barely more expensive than server-side joins in a relational database.
+> * Consider the write/read ratio when denormalizing. A field that will mostly be read and only seldom updated is a good candidate for denormalization: if you denormalize a field that is updated frequently then the extra work of finding and updating all the instances is likely to overwhelm the savings that you get from denormalizing.
+> * As always with MongoDB, how you model your data depends – entirely – on your particular application’s data access patterns. You want to structure your data to match the ways that your application queries and updates it.
+```
 
 > Database normalization is the process of structuring a relational database in accordance with a series of so-called normal forms in order to reduce data redundancy and improve data integrity.
 
