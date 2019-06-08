@@ -4,13 +4,26 @@
 
 > GraphQL is a query language for your API, and a server-side runtime for executing queries by using a type system you define for your data. GraphQL isn't tied to any specific database or storage engine and is instead backed by your existing code and data.
 
-Using GraphQL, we define a schema consisting of our types that can be retrieved, and the queries that can be executed.
+Using GraphQL, we define a schema consisting of our types that can be retrieved, and the queries and mutations that can be executed. The client can then execute the defined GraphQL queries and mutations, using a HTTP post request. Queries **should** not modify data on the server, while **Mutations** shoul.
 
-The main difference between REST and GraphQL is the number of endspoints exposed by a server. GraphQL only exposes one endpoint that can be used to execute all defined queries, whereas REST apis have a one-to-one relationship between endpoints and queries.
+The main difference between REST and GraphQL is the number of endpoints exposed by a server. GraphQL only exposes one endpoint that can be used to execute all defined queries and mutations, whereas REST apis have a one-to-one relationship between endpoints and queries. While REST focuses on CRUD operations on *Resources*, GraphQL queries and mutations are much more like function calls.
+
+- GraphQL endpoints only use `POST` requests, while REST endpoints use `POST`, `GET`, `PUT` and `DELETE`.
+- GraphQL endpoints accept and return `application/json`.
 
 ### Explain some of the Server Architectures that can be implemented with a GraphQL backend.
 
-GraphQL can both be used to create apis over HTTP, like REST APIs. It can also be used as a data-store for a server-side rendering application. 
+- https://www.tutorialspoint.com/graphql/graphql_architecture.htm
+
+> GraphQL is a specification that describes the behavior of a GraphQL server. It is a set of guidelines on how requests and responses should be handled like supported protocols, format of the data that can be accepted by the server, format of the response returned by the server, etc. The request made by a client to the GraphQL server is called a Query. Another important concept of GraphQL is its transport layer agnostics. It can be used with any available network protocol like TCP, websocket or any other transport layer protocol. It is also neutral to databases, so you can use it with relational or NoSQL databases.
+
+Like REST, GraphQL is used both be used to create apis over HTTP, like REST APIs. The GraphQL endpoints hide the implementation of the operations and data storage method. 
+
+![](flow4-images/graphql_server_connected_database.jpg)
+![](flow4-images/graphql_hybrid_approach.jpg)
+![](flow4-images/graphql_server_integrating_existing_systems.jpg)
+
+This means that you can change the implementation of the endpoint, and still have the same interface.
 
 ### What is meant by the terms over- and under-fetching in relation to REST.
 
@@ -45,6 +58,8 @@ GraphQL fixes this by requiring the fields that must be retrieved from the serve
 
 Above we specify that the books should contain the `title` and `authors` field, but no other fields. The same technique is used to limit the fields on the `Author` entity. This information is sent when making the request.
 
+The `graphql` package automatically removes any fields not specifies on the returned type.
+
 ### Explain shortly about GraphQL’s type system and some of the benefits we get from this.
 
 - https://graphql.org/learn/schema/
@@ -53,9 +68,9 @@ The schema defines the data-types that can be retrieved from the datastore. The 
 
 ### Explain shortly about GraphQL Schema Definition Language, and provide a number of examples of schemas you have defined.
 
-The `GraphQL schema language` is the language that is used to define types and queries on the backend server. The `GraphQL schema language` is independant from the server side programming language.
+The GraphQL Schema Definition Language is the language used to define the schema of the GrqphQL endpoint. The schema contains the types that can be accepted and returned, and queries and mutations that the client can execute. Importantly, the schema definition language is independant from the server side programming language, although you can also choose define the schema using native javascript.
 
-```graphql
+```
 type Author {
     id: ID!
     name: String!
@@ -86,23 +101,24 @@ type Query {
 }
 ```
 
-In the above example we define the `Book`, `Author` and `Genre` types. These are like the entities we would return using REST APIs. Within the curly brackets we define the fields present on the type. These fields can be `ID`, scalar types or other complex types.
+In the above example we define the `Book`, `Author` and `Genre` types. These are like the resources we would return using REST APIs. Within the curly brackets we define the fields present on the type. Outside, user-defined types, GraphQL also has a number of built-in types like `ID`, `String`, `Int`, `Float`, `Boolean` and array type (`[T]`). These types are all nullable by default, unless you prepend an exclamation point (`!`).
 
-The available scalar types are ´String´, ´Int´, ´Float´, ´Boolean´, and ´ID´. These types are all nullable by default, unless you predend an exclamation point (`!`), `Int!` or `UserDefinedType!`.
-
-Within the schema we also define the queries that clients can execute.
+Within the schema we also define the queries and mutations that clients can execute.
 
 ```
 type Query {
-    books(n: Int=20, start: Int=0): [Book]!
-    authors(n: Int=20, start: Int=0): [Author]!
+    books(n: Int=20, start: Int=0): [Book!]!
+    authors(n: Int=20, start: Int=0): [Author!]!
     genres: [Genre]! 
 }
+
 ```
 
-Here we define three queries `books`, `authors` and `genres`. We also declare the parameters the query take, along with their default values. The return type is also specified.
+Here we define three queries: `books`, `authors` and `genres`. We also declare the parameters the queries accept, and *optionally* with their default values. The return type is also specified.
 
 ### Provide a number of examples demonstrating data fetching with GraphQL. You should provide examples both running in a Sandbox/playground and examples executed in an Apollo Client
+
+![](flow4-images/graphql_playground_fetch_example.PNG)
 
 `Query`: [BookCrud_Legacy.js](https://github.com/Thomas-Rosenkrans-Vestergaard/javascript-exam-questions/tree/master/graphql-frontend/src/BookCrud_Lagacy.js)
 
