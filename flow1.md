@@ -55,7 +55,40 @@ these technologies: In our backend with Node and in (many different) Browsers.**
  
  - https://www.youtube.com/watch?v=8aGhZQkoFbQ
  - https://blog.carbonfive.com/2013/10/27/the-javascript-event-loop-explained/
- 
+ - https://nodejs.org/fa/docs/guides/event-loop-timers-and-nexttick/
+ - https://nodejs.dev/the-nodejs-event-loop
+> The event loop is what allows Node.js to perform non-blocking I/O operations — despite the fact that JavaScript is single-threaded — by offloading operations to the system kernel whenever possible.
+> 
+> Since most modern kernels are multi-threaded, they can handle multiple operations executing in the background. When one of these operations completes, the kernel tells Node.js so that the appropriate callback may be added to the poll queue to eventually be executed. 
+
+> The Node.js JavaScript code runs on a single thread. There is just one thing happening at a time.
+>
+>Any JavaScript code that takes too long to return back control to the event loop will block the execution of any JavaScript code in the page, even block the UI thread, and the user cannot click around, scroll the page, and so on.
+>
+>Almost all the I/O primitives in JavaScript are non-blocking. Network requests, filesystem operations, and so on. Being blocking is the exception, and this is why JavaScript is based so much on callbacks, and more recently on promises and async/await.
+
+Common misconceptions:
+
+> **Misconception 1: The event loop runs in a separate thread than the user code**
+>
+> There is a main thread where the JavaScript code of the user (userland code) runs in and another one that runs the event loop. Every time an asynchronous operation takes place, the main thread will hand over the work to the event loop thread and once it is done, the event loop thread will ping the main thread to execute a callback.
+>
+> **Reality**: There is only one thread that executes JavaScript code and this is the thread where the event loop is running. The execution of callbacks (know that every userland code in a running Node.js application is a callback) is done by the event loop. We will cover that in depth a bit later.
+
+> **Misconception 2: Everything that’s asynchronous is handled by a thread pool**
+>
+>Asynchronous operations, like working with the filesystems, doing outbound HTTP requests or talking to databases are always loaded off to a thread pool provided by libuv.
+>
+>**Reality**: Libuv by default creates a thread pool with four threads to offload asynchronous work to. Today’s operating systems already provide asynchronous interfaces for many I/O tasks (e.g. AIO on Linux).
+Whenever possible, libuv will use those asynchronous interfaces, avoiding usage of the thread pool. The same applies to third party subsystems like databases. Here the authors of the driver will rather use the asynchronous interface than utilizing a thread pool.
+In short: Only if there is no other way, the thread pool will be used for asynchronous I/O.
+
+> **Misconception 3: The event loop is something like a stack or queue**
+>
+>The event loop continuously traverses a FIFO of asynchronous tasks and executes the callback when a task is completed.
+>
+> **Reality**: While there are queue-like structures involved, the event loop does not run through and process a stack. The event loop as a process is a set of phases with specific tasks that are processed in a round-robin manner.
+
 **Explain of the purposes of the tools Babel and WebPack, using  examples from the exercises**
  
 Babel or Babel.js is a free and open-source JavaScript compiler and configurable transpiler used in web 
