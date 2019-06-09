@@ -1,10 +1,43 @@
 <h2>Other page</h2>
-<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
-    Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute
+<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna
+    aliqua.
+    Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis
+    aute
     irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat
     cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
-<ul>
-    {{#each words}}
-        <li>{{this}}</li>
-    {{/each}}
-</ul>
+<table>
+    <thead>
+        <tr>
+            <th>Title</th>
+            <th>Year</th>
+            <th>Language</th>
+            <th>Pages</th>
+            <th>Authors</th>
+            <th>Genres</th>
+        </tr>
+    </thead>
+    <tbody>
+        {{#each books as |book|}}
+        <tr>
+            <td>{{book.title}}</td>
+            <td>{{book.year}}</td>
+            <td>{{book.language}}</td>
+            <td>{{book.pages}}</td>
+            <td>
+                <ul>
+                    {{#each book.authors as |author|}}
+                    <li>{{author.name}}</li>
+                    {{/each}}
+                </ul>
+            </td>
+            <td>
+                <ul>
+                    {{#each book.genres as |genre|}}
+                    <li>{{genre.name}}</li>
+                    {{/each}}
+                </ul>
+            </td>
+            {{/each}}
+        </tr>
+    </tbody>
+</table>

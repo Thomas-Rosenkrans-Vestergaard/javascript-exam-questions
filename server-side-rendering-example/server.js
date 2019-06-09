@@ -2,6 +2,9 @@ const express = require('express')
 const port = 3004
 const app = express()
 const hbs = require( 'express-handlebars');
+const createData = require('./createData')
+
+const {genres, books} = createData()
 
 app.use(express.static('./public'))
 app.set('view engine', 'hbs');
@@ -18,15 +21,7 @@ app.get('/', function(req, res) {
 });
 
 app.get('/dynamic', function(req, res) {
-    
-    const words = [
-        "Mit",
-        "Navn",
-        "Er",
-        "Thomas"
-    ];
-    
-    res.render('dynamic', {layout: 'default', words})
+    res.render('dynamic', {layout: 'default', genres, books})
 });
 
 app.listen(port)
