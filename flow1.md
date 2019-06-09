@@ -42,7 +42,7 @@ these technologies: In our backend with Node and in (many different) Browsers.**
  **Explain generally about node.js, when it “makes sense” and npm, and how it “fits” into the node eco-system.**
  
  ``node.js`` is a JavaScript runtime environment, that can run JavaScript code. We use `node.js` to run JavaScript code 
- outside a web-browser. There may be some alternative to `node.js`. 
+ outside a web-browser. There may be some alternative to `node.js`, although these are probably not as well-developed or well-maintained. Node is extremely suited for http communication and other IO operations, since node uses a non-blocking approach.
  
  `npm` is a package manager. It manages libraries included into node projects. It allows for easy dependency management. 
  ``npm`` is also a library repository that contains many JavaScript libraries.
@@ -59,9 +59,9 @@ these technologies: In our backend with Node and in (many different) Browsers.**
 **Explain of the purposes of the tools Babel and WebPack, using  examples from the exercises**
  
 Babel or Babel.js is a free and open-source JavaScript compiler and configurable transpiler used in web 
-development. Babel allows software developers to write source code in a preferred programming language 
-or markup language and have it translated by Babel into JavaScript, a language understood by modern web 
-browsers.
+development. With babel we can use the newest ECMAScript features in our code, and have Babel transpile the code into lecacy code, that all browsers can run.
+
+Examples can be found within [babel-examples](./babel-examples).
 
 - https://medium.com/ag-grid/webpack-tutorial-understanding-how-it-works-f73dfa164f01
 - https://survivejs.com/webpack/what-is-webpack/
@@ -76,7 +76,7 @@ When you bundle a project using webpack, it traverses the imports, constructing 
 
 **Explain the purpose of “use strict” and Linters, exemplified with ESLint**
 
-JavaScript's strict mode, introduced in ECMAScript 5, is a way to opt in to a restricted variant of JavaScript, thereby implicitly opting-out of "sloppy mode". Strict mode isn't just a subset: it intentionally has different semantics from normal code. Browsers not supporting strict mode will run strict mode code with different behavior from browsers that do, so don't rely on strict mode without feature-testing for support for the relevant aspects of strict mode. Strict mode code and non-strict mode code can coexist, so scripts can opt into strict mode incrementally.
+JavaScript's strict mode, introduced in ECMAScript 5, is a way to opt in to a restricted variant of JavaScript, thereby implicitly opting-out of "sloppy mode". Strict mode isn't just a subset of normal mode: it intentionally has different semantics from normal code. Browsers not supporting strict mode will run strict mode code with different behavior from browsers that do, so don't rely on strict mode without feature-testing for support for the relevant aspects of strict mode. Strict mode code and non-strict mode code can coexist, so scripts can opt into strict mode incrementally.
 
 Strict mode can be applied to scripts, by using the below declaration.
 ```js
@@ -329,7 +329,7 @@ console.log(person.description()); // Name: Lars, Age: 10000000000
 
 Callback functions are often used as another form of `return` or to specify/extend some functionality (`map`, `forEach`, `reduce`, `filter`).
 
-> Note, however, that callbacks are often used to continue code execution after an asynchronous operation has completed — these are called asynchronous callbacks. A good example is the callback functions executed inside a .then() block chained onto the end of a promise after that promise fulfills or rejects. This structure is used in many modern web APIs, such as fetch().
+> Note, however, that callbacks are often used to continue code execution after an asynchronous operation has completed — these are called asynchronous callbacks. A good example is the callback functions executed inside a .then() block chained onto the end of a promise after that promise fulfills or rejects. This structure is used in many modern web APIs, such as `fetch`.
 
 ```js
 function condUpperCase(str, cb) {
