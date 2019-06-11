@@ -39,19 +39,11 @@ module.exports = class Facade {
         }).exec()
     }
 
-    /**
-     * Returns the distance between the provided positions.
-     * @param {*} positions The GeoJson positions to measure the distances between</code>
-     */
-    static distance(positions) {
-        if (positions.length < 2)
-            return 0;
+    static distance(a, b) {
+        if (!a || !b)
+            return null;
 
-        let result = 0;
-        for (let i = 1; i < positions.length; i++)
-            result += turn.distance(positions[i - 1], positions[i]);
-
-        return result;
+        return turf.distance(a, b);
     }
 
     /**
