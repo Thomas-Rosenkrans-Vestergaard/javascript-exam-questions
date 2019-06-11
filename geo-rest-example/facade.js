@@ -46,6 +46,10 @@ module.exports = class Facade {
         return turf.distance(a, b);
     }
 
+    static area(polygon) {
+        return turf.area(polygon)
+    }
+
     /**
      * Returns the final position when moving <code>distance</code> along the provided <code>line</code>.
      * @param {*} line The line to move along.

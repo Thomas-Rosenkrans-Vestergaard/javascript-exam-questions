@@ -35,4 +35,8 @@ router.post('/distance', (req, res) => {
     return res.json(result)
 });
 
+router.post('/area', async (req, res) => {
+    res.json(await Facade.area(req.body))
+})
+
 module.exports = router;

@@ -49,10 +49,10 @@ export default class DistanceBetweenCities extends Component {
     }
 
     createSelect = name => {
-        return <select name={name} defaultValue="_" onChange={this.onSelectChange}>
+        return <select style={{ marginRight: '20px' }} name={name} defaultValue="_" onChange={this.onSelectChange}>
             <option value="_">{name}</option>
             {this.state.cities.map((city, i) =>
-                <option value={i}>{city.name}</option>
+                <option key={i} value={i}>{city.name}</option>
             )}
         </select>
     }

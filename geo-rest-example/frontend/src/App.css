@@ -57,3 +57,8 @@ textarea {
     margin: 20px 0px;
     min-height: 500px;
 }
+
+button.disabled {
+    background: grey;
+    cursor: default;
+}
