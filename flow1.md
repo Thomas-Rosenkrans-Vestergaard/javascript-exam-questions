@@ -138,7 +138,9 @@ A linter is a parser that parses your code and looks for mistakes. A linter coul
 
 In JS, using a linter will parse your code on-the-fly, and will let you know if your code is valid and written correctly. In addition, a JS linter could warn you about misusing your team’s code style.
 
-Given the fact that every developer has its own style in code writing, working with linter that warns you about rules your team has defined in your code style guide, could help your team keep the code maintainable and readable for all — present and future developers.
+Given the fact that every developer has its own style in code writing, working with linter that warns you about rules your team has defined in your code style guide, could help your team keep the code maintainable and readable.
+
+An example using es-link can be found in [babel-webpack-example](./babel-webpack-example).
 
 - https://eslint.org/docs/rules/
 
