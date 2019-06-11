@@ -74,4 +74,4 @@ class JsonFileDatabase {
     }
 }
 
-module.exports = Jsonentity
+module.exports = JsonFileDatabase
