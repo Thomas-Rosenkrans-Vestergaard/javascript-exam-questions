@@ -4,11 +4,8 @@ const JsonFileDatabase = require('../src/JsonFileDatabase')
 const fs = require('fs')
 const chai = require('chai');
 const expect = chai.expect;
-const chaiHttp = require('chai-http')
 const testPeople = require('./testPeople')
-const [personA, personB, personC] = testPeople
-
-chai.use(chaiHttp)
+const [personA] = testPeople
 
 describe('JsonFileDatabase', function () {
 
