@@ -820,7 +820,6 @@ export default class MongoAuthenticationRepository<T extends AuthenticatableUser
 }
 ```
 
-
 ##### Types & Generics
 
 Here we used generics on a function, so that function can only accept lists of objects with a key `name` of type string.
@@ -848,7 +847,13 @@ const people = [
 
 console.log(getNames(products))
 console.log(getNames(people))
+console.log(getNames([{no_name: null}]))
 ```
+
+The last like causes a compile-time error: 
+<pre style="color:red">Type '{ no_name: null; }' is not assignable to type 'Named'.
+Object literal may only specify known properties, and 'no_name' does not exist in type 'Named'.
+</pre>
 
 ### Explain the ECMAScript Proposal Process for how new features are added to the language (the TC39 Process)
 
