@@ -1,0 +1,25 @@
+body {
+    font-family: 'Roboto', 'Sans Serif';
+    font-size: 16px;
+    padding: 0;
+    margin: 0;
+    padding: 20px;
+}
+
+h1, h2, h3 {
+    font-weight: 300;
+}
+
+table {
+    table-layout: fixed;
+    border-collapse: collapse;
+    width: 100%;
+}
+
+th, td {
+    padding: 10px;
+}
+
+tr:nth-of-type(2n), th{
+    background: #eee;
+}

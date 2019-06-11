@@ -719,13 +719,57 @@ The properties on the objects are still dependant on the prototype of the `Perso
 
 ### Provide examples with es-next, running in a browser, using Babel and Webpack
 
-// TODO
+
 
 ### Provide a number of examples to demonstrate the benefits of using TypeScript, including, types, interfaces, classes and generics.
 
-Typescript aims to provide compile-time type-safety. Typescript compiles down the JavaScript.
+Typescript aims to provide compile-time type-safety. Typescript compiles down to javascript, that browsers and node can understand. The main objective of TypeScript is to catch type-related errors, that are normally caught at compile-time in other compiled languages.
 
-// TODO
+##### Types
+
+
+
+##### Interfaces
+
+Below we declare the `User` interface, that matches our `mongoose` `UserSchema`. This allows for type-safe usage of the `mongoose` methods.
+
+```ts
+import {Schema, Document, model} from "mongoose";
+import AuthenticatableUser from "../auth/AuthenticatableUser";
+import {ValidationSchema} from "fastest-validator";
+
+export const UserSchema = new Schema({
+    firstName: {type: String, required: true},
+    lastName: {type: String, required: true},
+    email: {type: String, unique: true, required: true},
+    password: {type: String, required: true},
+}, {strict: true});
+
+export const UserValidationSchema: ValidationSchema = {
+    firstName: {type: "string", max: 256, required: true},
+    lastName: {type: "string", max: 256, required: true},
+    email: {type: "email", max: 256},
+    password: {type: "string", min: 6}
+};
+
+export interface User extends Document, AuthenticatableUser {
+    firstName: string;
+    lastName: string;
+    email: string;
+    password: string;
+}
+
+export default model<User>("User", UserSchema);
+```
+
+
+##### Classes
+
+
+
+##### Generics
+
+
 
 ### Explain the ECMAScript Proposal Process for how new features are added to the language (the TC39 Process)
 
@@ -902,10 +946,14 @@ The ``await`` keyword can only be used within functions declared using the `asyn
 
 `````js
 async function a() {
-    
+    return "Result"
 }
 
-const b = async () => undefined;
+const b = async () => {
+    return await a()
+};
+
+// b is a Promise
 `````
 
 An error occurs when attempting to use the ``await`` keyword within a non-`async` function. The `await` keyword can therefor not be used within the global context.
