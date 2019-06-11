@@ -1,21 +1,21 @@
 const createApplication = require('../src/app')
-const Book = require('./MemoryBook')
+const MemoryDatabase = require('./MemoryDatabase')
 
-const bookA = {
+const personA = {
     "id": "a_id",
     "name": "a_name",
     "email": "a_emai",
     "phone": "a_phone",
     "address": "a_address"
 }
-const bookB = {
+const personB = {
     "id": "b_id",
     "name": "b_name",
     "email": "b_emai",
     "phone": "b_phone",
     "address": "b_address"
 }
-const bookC = {
+const personC = {
     "id": "c_id",
     "name": "c_name",
     "email": "c_emai",
@@ -23,15 +23,15 @@ const bookC = {
     "address": "c_address"
 }
 
-const books = new Book([bookA, bookB, bookC])
-const app = createApplication(books)
+const people = new MemoryDatabase([personA, personB, personC])
+const app = createApplication(people)
 const chai = require('chai');
 const expect = chai.expect;
 const chaiHttp = require('chai-http')
 
 chai.use(chaiHttp)
 
-describe('Restful book api', function () {
+describe('Restful person api', function () {
 
     before(function (done) {
         this.server = app.listen(3004, function () {
@@ -40,51 +40,51 @@ describe('Restful book api', function () {
     });
 
     beforeEach(function (done) {
-        books.reset()
+        people.reset()
         done()
     })
 
-    it('GET /books should return a list of books', function (done) {
+    it('GET /people should return a list of people', function (done) {
         chai.request(this.server)
-            .get('/books')
+            .get('/people')
             .end((err, res) => {
                 expect(err).to.be.null;
                 expect(res).to.have.status(200)
                 expect(res).to.be.json;
                 expect(res.body).to.have.length(3)
-                expect(res.body[0]).to.be.eql(bookA)
-                expect(res.body[2]).to.be.eql(bookC)
+                expect(res.body[0]).to.be.eql(personA)
+                expect(res.body[2]).to.be.eql(personC)
                 done()
             })
     })
 
-    it('GET /books/:id should return a single book from an id.', function (done) {
+    it('GET /people/:id should return a single person from an id.', function (done) {
         chai.request(this.server)
-            .get('/books/a_id')
+            .get('/people/a_id')
             .end((err, res) => {
                 expect(err).to.be.null;
                 expect(res).to.have.status(200)
                 expect(res).to.be.json;
-                expect(res.body).to.be.eql(bookA)
+                expect(res.body).to.be.eql(personA)
                 done()
             })
     })
 
-    it('GET /books/:id should return null when the provided id does not exist.', function (done) {
+    it('GET /people/:id should return null when the provided id does not exist.', function (done) {
         chai.request(this.server)
-            .get('/books/does_not_exist')
+            .get('/people/does_not_exist')
             .end((err, res) => {
                 expect(err).to.be.null;
                 expect(res).to.have.status(404)
                 expect(res).to.be.json;
                 expect(res.body).to.be.eql({
-                    message: 'Could not find book'
+                    message: 'Could not find person'
                 })
                 done()
             })
     })
 
-    it('POST /books should create a new book', function (done) {
+    it('POST /people should create a new person', function (done) {
         const toSubmit = {
             "name": "d_name",
             "email": "d_emai",
@@ -92,7 +92,7 @@ describe('Restful book api', function () {
             "address": "d_address"
         }
         chai.request(this.server)
-            .post('/books')
+            .post('/people')
             .send(toSubmit)
             .end((err, res) => {
                 expect(err).to.be.null;
@@ -106,27 +106,27 @@ describe('Restful book api', function () {
             })
     })
 
-    it('PUT /books/:id should should behave on unknown book id', function (done) {
+    it('PUT /people/:id should should behave on unknown person id', function (done) {
         chai.request(this.server)
-            .put('/books/does_not_exist')
+            .put('/people/does_not_exist')
             .end((err, res) => {
                 expect(err).to.be.null;
                 expect(res).to.have.status(404)
                 expect(res).to.be.json;
                 expect(res.body).to.eql({
-                    message: 'Could not find book'
+                    message: 'Could not find person'
                 })
                 done()
             })
     })
 
-    it('PUT /books/:id should update an existing book', function (done) {
+    it('PUT /people/:id should update an existing person', function (done) {
 
         const toUpdate = {
             name: 'new_a_name'
         }
         chai.request(this.server)
-            .put('/books/a_id')
+            .put('/people/a_id')
             .send(toUpdate)
             .end((err, res) => {
                 expect(err).to.be.null;
@@ -137,32 +137,32 @@ describe('Restful book api', function () {
             })
     })
 
-    it('DELETE /books/:id should behave on unknown book id.', function (done) {
+    it('DELETE /people/:id should behave on unknown person id.', function (done) {
         chai.request(this.server)
-            .delete('/books/does_not_exist')
+            .delete('/people/does_not_exist')
             .end((err, res) => {
                 expect(err).to.be.null;
                 expect(res).to.have.status(404)
                 expect(res).to.be.json;
                 expect(res.body).to.eql({
-                    message: 'Could not find book'
+                    message: 'Could not find person'
                 })
                 done()
             })
     })
 
-    it('DELETE /books/:id should delete the book with the provided id.', function (done) {
+    it('DELETE /people/:id should delete the person with the provided id.', function (done) {
 
-        expect(books.get('a_id')).not.to.be.null; // before
+        expect(people.get('a_id')).not.to.be.null; // before
 
         chai.request(this.server)
-            .delete('/books/a_id')
+            .delete('/people/a_id')
             .end(async (err, res) => {
                 expect(err).to.be.null;
                 expect(res).to.have.status(200)
                 expect(res).to.be.json;
-                expect(res.body).to.eql(bookA)
-                const found = await books.get('a_id')
+                expect(res.body).to.eql(personA)
+                const found = await people.get('a_id')
                 expect(found).to.be.null; // after
                 done()
             })
