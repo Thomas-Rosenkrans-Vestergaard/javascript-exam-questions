@@ -4,10 +4,11 @@
   "description": "",
   "main": "webpack.config.js",
   "scripts": {
-    "webpack": "webpack",
+    "build": "webpack",
     "start": "http-server dist -p 3012",
     "watch": "webpack --watch",
-    "lint": "eslint"
+    "lint": "eslint js",
+    "fix": "eslint js --fix"
   },
   "author": "",
   "license": "ISC",
