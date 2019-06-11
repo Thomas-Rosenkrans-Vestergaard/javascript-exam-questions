@@ -5,11 +5,13 @@
   "main": "cluster-example.js",
   "scripts": {
     "start": "node server.js",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start-balance": "loadbalancer start --config loadbalancer.config.json",
+    "stop-balance": "loadbalancer stop"
   },
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "express": "4.16.4"
+    "express": "4.16.4",
+    "loadbalancer": "^0.9.26"
   }
 }

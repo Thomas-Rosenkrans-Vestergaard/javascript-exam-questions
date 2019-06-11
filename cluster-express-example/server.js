@@ -1,7 +1,7 @@
 const express = require('express');
 const cluster = require('cluster');
 const os = require('os');
-const port = 3000;
+const port = 4000;
 
 const app = express();
 
@@ -11,14 +11,6 @@ const app = express();
  */
 if (cluster.isMaster) {
 
-    // App that returns information about the workers.
-    const counterApp = express()
-    counterApp.set('json spaces', 2)
-    counterApp.get('/', function(req, res) {
-        res.json(cluster.workers)
-    });
-    counterApp.listen(3001)
-    
     var cpuCount = os.cpus().length;
     for (var i = 0; i < cpuCount; i += 1)
         cluster.fork();
@@ -40,15 +32,23 @@ if (cluster.isWorker) {
 
     const workerId = cluster.worker.id;
 
+    app.set('json spaces', 2)
+    app.get('/workers', function (req, res) {
+        res.json(cluster.workers)
+    });
+
     app.get('/', function (req, res) {
-        res.send(`Hello from worker ${workerId}`);
+        setTimeout(() => {
+            res.send(`Hello from worker ${workerId}`);
+        }, 1000)
     });
 
     app.get('/error', function (req, res) {
         throw new Error("Test worker dying.");
     });
 
-    app.listen(port);
-
-    console.log(`Worker ${workerId} listening on port ${port}`)
+    const workerPort = port + Number(workerId)
+    app.listen(workerPort, () => {
+        console.log(`Worker ${workerId} listening on port ${workerPort}`)
+    });
 }
