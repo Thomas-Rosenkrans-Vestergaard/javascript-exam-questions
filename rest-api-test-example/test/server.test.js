@@ -1,29 +1,9 @@
 const createApplication = require('../src/app')
 const MemoryDatabase = require('./MemoryDatabase')
+const testPeople = require('./testPeople')
+const [personA, _, personC] = testPeople
 
-const personA = {
-    "id": "a_id",
-    "name": "a_name",
-    "email": "a_emai",
-    "phone": "a_phone",
-    "address": "a_address"
-}
-const personB = {
-    "id": "b_id",
-    "name": "b_name",
-    "email": "b_emai",
-    "phone": "b_phone",
-    "address": "b_address"
-}
-const personC = {
-    "id": "c_id",
-    "name": "c_name",
-    "email": "c_emai",
-    "phone": "c_phone",
-    "address": "c_address"
-}
-
-const people = new MemoryDatabase([personA, personB, personC])
+const people = new MemoryDatabase(testPeople)
 const app = createApplication(people)
 const chai = require('chai');
 const expect = chai.expect;
@@ -31,7 +11,7 @@ const chaiHttp = require('chai-http')
 
 chai.use(chaiHttp)
 
-describe('Restful person api', function () {
+describe('REST', function () {
 
     before(function (done) {
         this.server = app.listen(3004, function () {

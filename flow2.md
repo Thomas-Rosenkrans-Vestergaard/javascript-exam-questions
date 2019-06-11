@@ -116,7 +116,7 @@ cluster.on('exit', function (worker) {
 
 The problem with using `console.log` is that the output cannot easily be disabled when deployed to a production environment. Since `console.log` is a blocking call, the impact on the performance of the application will suffer. 
 
-The `debug` package exposes a function that can be used to print debugging messages.
+The `debug` package exports a function that can be used create a function, that in turn can print debugging messages.
 
 ```js
 const a = require('debug')('a') // Creates a debug function with the name a
@@ -147,13 +147,18 @@ const b = require('debug')('name:b')
 
 ### Demonstrate a system using application logging and “coloured” debug statements.
 
-An example can be found in the [debugging-example](./debugging-example) project. Note the below `scripts` commands found in the `package.json` file. 
+An example can be found in the [debugging-example](./debugging-example) project. Note the `scripts` commands found in the `package.json` file. 
 
 ```json
-"scripts": {
-    "debug": "cross-env DEBUG=\"*\" npm run start",
-    "debug-http": "cross-env DEBUG=\"http:*\" npm run start",
-    "debug-calculator": "cross-env DEBUG=\"calculator\" npm run start"
+{
+    ...
+    "scripts": {
+        "start": "node server.js",
+        "debug-all": "cross-env DEBUG=\"*\" npm run start",
+        "debug-app": "cross-env DEBUG=\"app:*\" npm run start",
+        "debug-app-http": "cross-env DEBUG=\"app:http:*\" npm run start",
+        "debug-app-calculator": "cross-env DEBUG=\"app:calculator\" npm run start"
+    }
 }
 ```
 
@@ -161,9 +166,20 @@ Here the [cross-env](https://www.npmjs.com/package/cross-env) package is used so
 
 ### Explain, using relevant examples, concepts related to testing a REST-API using Node/JavaScript + relevant packages.
 
-Testing a REST API is much easlier in JavaScript than in many other languages like Java. When using languages like Java, web services often need to be deployed to a dedicated server. Using express we can programmatically start our express server using the `listen` method. We can then use the `node-fetch` package to make requests to the REST API.
+Testing a REST API is much easlier using `express` than in many other languages like Java. When using languages like Java, web services often need to be deployed to a dedicated server. Using express we can programmatically start our express server using the `listen` method. We can then use the `node-fetch` package to make requests to the REST API.
 
 [rest-api-test-example](./rest-api-test-example)
+
+#### Configuration issues
+
+The application must be designed correctly, in order to be tested. You should not perfom tests in the production environment. The application must be able to switch configuration options, based on the requried environment: testing or non-testing.
+
+In the above example i use a factory `createApplication` to create my express app, using different data storage solutions.
+
+- [non-testing](https://github.com/Thomas-Rosenkrans-Vestergaard/javascript-exam-questions/blob/master/rest-api-test-example/src/server.js#L6)
+- [testing](https://github.com/Thomas-Rosenkrans-Vestergaard/javascript-exam-questions/blob/master/rest-api-test-example/test/server.test.js#L27)
+
+Another solution would be to switch the configuration options based on an environment variable.
 
 ### Explain, using relevant examples, the Express concept; middleware.
 
@@ -219,14 +235,18 @@ Authentication can also be implemented using middleware. The middleware can then
 const express = require('express')
 const app = express()
 
-function auth(req, res, next) {
+function authMiddleware(req, res, next) {
     if (!req.session.userName){ // when not logged in
         res.redirect('auth') // redirect to the login page
-        return next()
+        return // dont call next
     }
+
+    next() // move on to the next middleware or route
 }
 
-app.use('/admin', auth) // only use the authentication middleware on the administration page.
+// only use the authentication middleware on the administration pages.
+app.use('/admin', authMiddleware)
+app.use('/admin', authRouter)
 ```
 
 ### Explain, using relevant examples, how to implement sessions and the legal implications of doing this.
