@@ -21,7 +21,7 @@ function App() {
         < AreaWithin
           googleMapURL="https://maps.googleapis.com/maps/api/js?v=3.exp&key=AIzaSyCk7r-QjpVYLg83Pw5_D_jhvg_0XA_0QZQ&libraries=geometry,drawing,places"
           loadingElement={< div style={{ height: `100%` }} />}
-          containerElement={< div style={{ height: `750px`}} />}
+          containerElement={< div style={{ height: `780px`}} />}
           mapElement={< div id="map-container" style={{ height: `600px` }} />}
         />
       </div>
