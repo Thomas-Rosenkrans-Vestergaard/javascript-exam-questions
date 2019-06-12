@@ -1,9 +1,11 @@
 const express = require('express')
 const app = express()
 const port = 3009
+const log = require('simple-node-logger').createSimpleLogger('project.log');
 
 app.get('/', (req, res) => {
-    res.send(`internally, this application runs on port ${port}`)
+    log.info(`Incomming request ${req.url}`)
+    res.send(`internally, this application runs on port ${port}, but is accessable through port 80`)
 })
 
 app.listen(port, err => {
