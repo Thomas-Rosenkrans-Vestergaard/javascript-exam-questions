@@ -22,15 +22,6 @@ if (cluster.isMaster) {
     console.log("Servers:")
     console.log(servers)
 
-    /*
-     * To handle workers dying we listen for the `exit` event.
-     */
-    cluster.on('exit', function (worker) {
-        console.log(`Worker ${worker.id} died`);
-        cluster.fork();
-    });
-
-
     let cur = 0;
     const handler = (req, res) => {
         req.pipe(request({ url: servers[cur] + req.url })).pipe(res);
@@ -55,20 +46,11 @@ if (cluster.isMaster) {
 if (cluster.isWorker) {
 
     const workerId = cluster.worker.id;
-
-    app.set('json spaces', 2)
-    app.get('/workers', function (req, res) {
-        res.json(cluster.workers)
-    });
-
+    
     app.get('/', function (req, res) {
         setTimeout(() => {
             res.send(`Hello from worker ${workerId}`);
         }, 1000)
-    });
-
-    app.get('/error', function (req, res) {
-        throw new Error("Test worker dying.");
     });
 
     const workerPort = port + Number(workerId)
