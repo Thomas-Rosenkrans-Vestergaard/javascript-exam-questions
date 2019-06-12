@@ -17,8 +17,14 @@ function get(url) {
 }
 
 get("http://google.com")
-    .then(response => console.log(Object.keys(response)))
-    .catch(e => {
-        console.error("An error occured")
-        console.error(e)
-    })
+    .then(response => console.log(response.statusCode))
+    .catch(e => console.error("An error occured: " + e.message));
+
+(async function () {
+    try {
+        const response = await get("http://google.com")
+        console.log(response.statusCode)
+    } catch (e) {
+        console.error("An error occured: " + e.message)
+    }
+})()

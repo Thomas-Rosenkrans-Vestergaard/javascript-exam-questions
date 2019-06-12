@@ -12,6 +12,8 @@ Scripting languages often also have a wast amount of libraries used for web-deve
 
 JavaScript is additionally suited for backend development, since it means both the frontend and backend of a project, is developed using the same language.
 
+Additionally, if you want to work with JSON, using JavaScript is an optimal solution, since it natively supports the JSON notation.
+
 ### Explain the pros and cons in using Node.js + Express to implement your Backend compared to a strategy using, for example, Java/JAX-RS/Tomcat.
 
 Node.js have the advantages of scripting languages already mentioned. 
