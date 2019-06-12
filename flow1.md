@@ -209,7 +209,7 @@ In JS, using a linter will parse your code on-the-fly, and will let you know if 
 
 Given the fact that every developer has its own style in code writing, working with linter that warns you about rules your team has defined in your code style guide, could help your team keep the code maintainable and readable.
 
-An example using es-link can be found in [babel-webpack-example](./babel-webpack-example).
+An example using es-lint can be found in [babel-webpack-example](./babel-webpack-example).
 
 - https://eslint.org/docs/rules/
 
