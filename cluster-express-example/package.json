@@ -4,14 +4,12 @@
   "description": "",
   "main": "cluster-example.js",
   "scripts": {
-    "start": "node server.js",
-    "start-balance": "loadbalancer start --config loadbalancer.config.json",
-    "stop-balance": "loadbalancer stop"
+    "start": "node server.js"
   },
   "author": "",
   "license": "ISC",
   "dependencies": {
     "express": "4.16.4",
-    "loadbalancer": "^0.9.26"
+    "request": "2.88.0"
   }
 }

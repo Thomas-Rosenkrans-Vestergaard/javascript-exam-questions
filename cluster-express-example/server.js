@@ -1,4 +1,5 @@
 const express = require('express');
+const request = require('request')
 const cluster = require('cluster');
 const os = require('os');
 const port = 4000;
@@ -12,8 +13,14 @@ const app = express();
 if (cluster.isMaster) {
 
     var cpuCount = os.cpus().length;
-    for (var i = 0; i < cpuCount; i += 1)
+    const servers = [];
+    for (var i = 1; i <= cpuCount; i += 1) {
         cluster.fork();
+        servers.push(`http://localhost:${port + i}`)
+    }
+
+    console.log("Servers:")
+    console.log(servers)
 
     /*
      * To handle workers dying we listen for the `exit` event.
@@ -21,6 +28,23 @@ if (cluster.isMaster) {
     cluster.on('exit', function (worker) {
         console.log(`Worker ${worker.id} died`);
         cluster.fork();
+    });
+
+
+    let cur = 0;
+    const handler = (req, res) => {
+        req.pipe(request({ url: servers[cur] + req.url })).pipe(res);
+        cur = (cur + 1) % servers.length;
+    };
+
+    const server = express().get('*', handler).post('*', handler);
+    server.listen(port, err => {
+        if(err){
+            console.error(err);
+            return;
+        }
+
+        console.log(`Load balancer started at http://localhost:${port}`)
     });
 }
 
