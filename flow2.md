@@ -42,6 +42,8 @@ The example can be found in the [cluster-express-example](./cluster-express-exam
 
 The cluster API can additionally be used to deal with exceptions that would normally cause the application the crash. One of the problems with Node.js is that one exception can crash the whole application. When using cluster, only the worker process will die on an exception. If a worker dies we can use the `exit` event to simply start up a new worker.
 
+You can also use `pm2` to create clusters.
+
 ```js
 cluster.on('exit', function (worker) {
     console.log(`Worker ${worker.id} died`);
@@ -85,7 +87,9 @@ cluster.on('exit', function (worker) {
 
 * __Ensure that you can take advantage of a multi-core system.__
 
-    I feel this question has been answered above.
+    The above example uses a solution within the project.
+
+    Use can also use `pm2` to create clusters.
 
 * __Ensure that you can run “many” node-applications on a single droplet on the same port.__
 

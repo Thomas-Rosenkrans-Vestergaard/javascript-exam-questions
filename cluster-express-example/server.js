@@ -46,7 +46,6 @@ if (cluster.isMaster) {
 if (cluster.isWorker) {
 
     const workerId = cluster.worker.id;
-    
     app.get('/', function (req, res) {
         setTimeout(() => {
             res.send(`Hello from worker ${workerId}`);
