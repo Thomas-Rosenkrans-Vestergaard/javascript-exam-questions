@@ -576,6 +576,7 @@ function Person(name){
     return {
         a: () => this.name,
         b: function() {
+            console.log(this) // { a: [Function: a], b: [Function: b] }
             return this.name;
         }
     }
@@ -583,7 +584,7 @@ function Person(name){
 
 const person = new Person("Lars");
 console.log(person.a()); // "Lars"
-console.log(person.b()); // undefined
+console.log(person.b()); // undefined, since this refers to the object containing the a and b functions
 
 ```
 In the above example it can be seen that:
@@ -918,7 +919,7 @@ const people = [
 
 console.log(getNames(products))
 console.log(getNames(people))
-console.log(getNames([{no_name: null}]))
+console.log(getNames([{no_name: null}])) // throws Error
 ```
 
 The last like causes a compile-time error: 
