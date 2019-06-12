@@ -16,13 +16,15 @@ function get(url) {
     })
 }
 
-get("http://google.com")
+
+const url = "http://google.com"; 
+get(url)
     .then(response => console.log(response.statusCode))
     .catch(e => console.error("An error occured: " + e.message));
 
 (async function () {
     try {
-        const response = await get("http://google.com")
+        const response = await get(url)
         console.log(response.statusCode)
     } catch (e) {
         console.error("An error occured: " + e.message)

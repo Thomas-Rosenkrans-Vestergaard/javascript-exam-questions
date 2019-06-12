@@ -4,11 +4,11 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "node server.js",
-    "debug-all": "cross-env DEBUG=\"*\" npm run start",
-    "debug-app": "cross-env DEBUG=\"app:*\" npm run start",
-    "debug-app-http": "cross-env DEBUG=\"app:http:*\" npm run start",
-    "debug-app-calculator": "cross-env DEBUG=\"app:calculator\" npm run start"
+    "start": "cross-env DEBUG=\"\" node server.js",
+    "debug-all": "cross-env DEBUG=\"*\" node server.js",
+    "debug-app": "cross-env DEBUG=\"app:*\" node server.js",
+    "debug-app-http": "cross-env DEBUG=\"app:http:*\" node server.js",
+    "debug-app-calculator": "cross-env DEBUG=\"app:calculator\" node server.js"
   },
   "author": "",
   "license": "ISC",
