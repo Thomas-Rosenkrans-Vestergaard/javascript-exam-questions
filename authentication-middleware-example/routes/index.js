@@ -2,27 +2,33 @@ const express = require('express');
 const router = express.Router();
 const Jokes = require('../model/jokes')
 const jokes = new Jokes()
-const {authenticationMiddleware} = require('./middleware') 
+const { authenticationMiddleware } = require('./middleware')
 
 
 router.get('/login', function (req, res, next) {
-  res.render('login', { userName: req.session.userName })
+  res.render('login')
 })
 
 router.post('/login', function (req, res, next) {
-    const userName = req.body.userName
-    if (userName) {
-      req.session.userName = userName;
-      res.redirect('/')
-      return
-    }
+  const userName = req.body.userName
+  if (userName) {
+    req.session.userName = userName;
+    res.redirect('/')
+    return
+  }
 
-    res.redirect('/login')
+  res.redirect('/login')
+})
+
+router.get('/logout', function (req, res) {
+  req.session.userName = null
+  res.redirect('/login')
 })
 
 router.use('/', authenticationMiddleware)
 
 router.get('/', function (req, res, next) {
+  console.log(req.session.userName)
   res.render('index', { userName: req.session.userName, jokes: jokes.getAllJokes() })
 })
 
