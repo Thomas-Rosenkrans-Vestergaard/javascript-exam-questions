@@ -131,6 +131,75 @@ function notStrict() {}
 
 Strict mode applies to entire scripts or to individual functions. It doesn't apply to block statements enclosed in {} braces; attempting to apply it to such contexts does nothing.
 
+Examples of errors when using strict mode:
+
+_Using a variable, without declaring it, is not allowed._
+```js
+"use strict";
+x = 3.14;                // This will cause an error
+```
+
+_Deleting a variable (or object) is not allowed._
+
+```js
+"use strict";
+var x = 3.14;
+delete x;                // This will cause an error
+```
+
+_Deleting a function is not allowed._
+
+```js
+"use strict";
+function x(p1, p2) {}; 
+delete x;                // This will cause an error 
+```
+
+_Duplicating a parameter name is not allowed._
+
+```js
+"use strict";
+function x(p1, p1) {};   // This will cause an error
+```
+
+_Octal numeric literals are not allowed._
+
+```js
+"use strict";
+var x = 010;             // This will cause an error
+```
+
+_Writing to a read-only property is not allowed._
+
+```js
+"use strict";
+var obj = {};
+Object.defineProperty(obj, "x", {value:0, writable:false});
+
+obj.x = 3.14;            // This will cause an error
+```
+
+_Writing to a get-only property is not allowed._
+
+```js
+"use strict";
+var obj = {get x() {return 0} };
+
+obj.x = 3.14;            // This will cause an error
+```
+
+_The this keyword refers to the object that called the function, if the object is not specified, functions in strict mode will return undefined and functions in normal mode will return the global object (window)._
+
+```js
+"use strict";
+function myFunction() {
+  alert(this); // will alert "undefined"
+}
+myFunction();
+```
+
+The "use strict" directive is only recognized at the beginning of a script or a function.
+
 - https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Strict_mode
 - https://medium.com/@danielsternlicht/thoughts-about-javascript-linters-and-lint-driven-development-7c8f17e7e1a0
 
