@@ -151,6 +151,16 @@ const b = require('debug')('name:b')
 * when `DEBUG=name:a`, `a` debug statements are printed.
 * when `DEBUG=name:*`, all debug statements starting with `name` are printed.
 
+Internally the `debug` package uses the following code:
+
+```js
+function log(...args) {
+	return process.stderr.write(util.format(...args) + '\n');
+}
+```
+
+Depending on the system, `process.stderr.write` can both be synchronous and asynchronous. 
+
 ### Demonstrate a system using application logging and “coloured” debug statements.
 
 An example can be found in the [debugging-example](./debugging-example) project. Note the `scripts` commands found in the `package.json` file. 
