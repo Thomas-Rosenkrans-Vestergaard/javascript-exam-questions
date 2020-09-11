@@ -23,7 +23,7 @@
     "mongoose": "^5.5.13"
   },
   "devDependencies": {
-    "node-fetch": "^2.6.0",
+    "node-fetch": "^2.6.1",
     "nodemon": "^1.18.10"
   }
 }
